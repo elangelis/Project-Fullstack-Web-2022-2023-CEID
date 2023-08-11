@@ -1,0 +1,228 @@
+
+@media only screen and (min-device-width: 768px)
+/*LAPTOP*/
+{
+    * {
+        margin: 0;
+        padding: 2px;
+        box-sizing: border-box;
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    :root {
+        /* ===== Colors ===== */
+        --body-color: #07090a;
+        --sidebar-color: #242526;
+        --primary-color: #3a3b3c;
+        --primary-color-light: #3a3b3c;
+        --toggle-color: #fff;
+        --text-color: #ccc;
+
+        /* ====== Transition ====== */
+        --tran-03: all 0.2s ease;
+        --tran-03: all 0.3s ease;
+        --tran-04: all 0.3s ease;
+        --tran-05: all 0.3s ease;
+
+        width: 750px;
+        height: 700px;
+    }
+
+    .dropdown-submenu {
+        position: relative;
+    }
+    
+    .dropdown-submenu .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -1px;
+    }
+    
+    .ListProducts_hidden{
+        display: none;
+    }
+    
+    .ListProducts_visible{
+        display: block;
+    }
+    
+    
+    #body{
+        
+        background-color:   var(--sidebar-color);
+        color: var(--text-color);
+    }
+    
+    #content{
+        height: 708px;
+        width: 746px;
+    }
+
+    #main_header{
+        position: absolute;
+        left: 200px;
+        top: 20px;
+        width:  400px;
+        
+    }
+
+
+    #shop_info{
+        position: absolute;
+        left: 50px;
+        top: 100px;
+        height: 100px;
+        width: 600px; 
+    }
+    #shop_info_header{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 50px;
+    }
+    #shop_info_field{
+        position: absolute;
+        top: 60px;
+        left: 50px;
+    }
+    #shop_selection{
+        position: absolute;
+        top: 0px;
+        width: 200px;
+        left: 200px;
+        color: var(--body-color) !important;
+    }
+
+
+    #dropdown_info{
+        position: absolute;
+        left: 50px;
+        top: 200px;
+        height: 280px;
+        width: 600px;
+    }
+    #dropdown_info_header{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 50px;
+    }
+    #dropdown_info_field{
+        position: absolute;
+        top: 60px;
+        left: 50px;
+    }
+    #dropdown_searchbar{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 200px;
+        width: 600px;
+    }
+    #list_object{
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        height: 100px;
+        width: 600px;
+        display: block;
+        overflow: auto;
+    }
+    #dropdown_treebar{
+        position: absolute;
+        top: 150px;
+        left: 0px;
+        height: 150px;
+        width: 600px;
+    }
+    #item-selection{
+        position: absolute;
+        top: 0px;
+        left: 200px;
+        width: 300px;
+        color: var(--body-color) !important;
+    }
+
+
+    #price_info{
+        position: absolute;
+        top: 500px;
+        left: 50px;
+        height: 80px;
+        width: 600px;
+    }
+    #price_info_header{
+        position: absolute;
+        top: 0px;
+        left: 50px;
+        height: 50px;
+        width: 400px;
+    }
+    #price_info_field{
+        position: absolute;
+        top: 50px;
+        left: 50px;
+        height: 50px;
+        width: 400px; 
+    }
+    #price_selection{
+        position: absolute;
+        top: 0px;
+        left: 200px;
+        width: 100px;
+        color: var(--body-color) ;
+        
+    }
+
+
+    #submit_info_button{
+        position: absolute;
+        top: 600px;
+        left: 100px;
+        height: 150px;
+        width: 400px;
+    }
+    #submit_info_header{
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        height: 50px;
+    }
+
+    #submit_info_field{
+        position: absolute;
+        top: 0px;
+        left: 100px;
+        height: 100px;
+        width: 450px;
+        
+        color: var(--sidebar-color) !important; 
+    }
+
+    #submit_button{
+        position: absolute;
+        top: 50px;
+        left: 40px;
+        width: 180px;
+        font-size: small;
+        color: var(--body-color) !important;
+    }
+
+
+    #closebutton{
+        position: absolute;
+        top: 10px;
+        left: 700px;
+        font-size: 45px;
+        font-weight: 200;
+        color:var(--toggle-color);
+    }
+
+
+}
+
+@media only screen and (max-device-width: 768px)
+/*MOBILES*/
+{
+
+}

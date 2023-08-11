@@ -1,0 +1,23 @@
+
+
+
+-- FINAL
+
+
+DROP TABLE IF EXISTS Archive_score_TOTAL;
+
+CREATE TABLE IF NOT EXISTS Archive_score_TOTAL
+(
+    id INT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    score INTEGER UNSIGNED NULL DEFAULT 0,
+
+    PRIMARY KEY (id),
+
+    CONSTRAINT Archive_score_TOTAL_user_id
+    FOREIGN KEY (user_id) REFERENCES object_user(id)
+    ON UPDATE NO ACTION ON DELETE NO ACTION
+
+);
+
+

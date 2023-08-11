@@ -1,0 +1,12 @@
+
+DELIMITER ;
+DROP PROCEDURE IF EXISTS Database_AllProductDetails;
+
+DELIMITER $$
+CREATE PROCEDURE IF NOT EXISTS Database_AllProductDetails()
+BEGIN
+
+    SELECT * FROM object_product;
+
+END$$
+DELIMITER ;

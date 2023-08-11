@@ -1,0 +1,221 @@
+@media only screen and (min-device-width: 768px)
+/*LAPTOP*/
+{
+    :root {
+        /* ===== Colors ===== */
+        --body-color: #18191a;
+        --sidebar-color: #242526;
+        --primary-color: #3a3b3c;
+        --primary-color-light: #3a3b3c;
+        --toggle-color: #fff;
+        --text-color: #ccc;
+
+        /* ====== Transition ====== */
+        --tran-03: all 0.2s ease;
+        --tran-03: all 0.3s ease;
+        --tran-04: all 0.3s ease;
+        --tran-05: all 0.3s ease;
+    }
+
+    #container_header{
+        position: absolute;
+        left: 700px;
+    }
+
+
+    #body{
+        background-color:   var(--sidebar-color);
+        color: var(--text-color);
+    }
+
+    #content{
+        position:absolute;
+        left: 100px;
+        top: 60px;
+    }
+
+    #table_header_prosf{
+
+        position: absolute;
+        left: 150px;
+        width: 500px;
+        top: 30px;
+    }
+    #status{
+        visibility: hidden;
+    }
+    #ChangeStockStatus{
+        background-color: var(--primary-color);
+        font-style: var(--text-color);
+        height: 40px;
+        width: 100px;
+        visibility: hidden;
+    }
+
+    #table_object{
+        position: absolute;
+        left: 100px;
+        top: 120px;
+        
+        height: 300px;
+        width: 1200px;
+        overflow: auto;
+        border: #fff;
+        border-radius: 10px;
+        border-width: 5px;
+        border-style: solid;
+        margin: 5px;
+        padding: 5px;
+    }
+
+    .container{
+        font-display: var(--text-color);
+    }
+    .buttons_class{
+        background-color: var(--primary-color);
+    }
+
+
+    #offer_object{
+        position: absolute;
+        left: 100px;
+        top: 450px;
+        height: 600px;
+        width: 1200px;
+        border-radius: 10px;
+        border: #fff;
+        border-width: 5px;
+        border-style: solid;
+        margin: 5px;
+        padding: 10px;
+    }
+
+    #Offer_productname{
+        text-align: left;
+        text-overflow: ellipsis;
+    }
+    #image_container{
+        position: absolute;
+        top: 100px;
+        left: 00px;
+        width: 250px;
+    }
+
+    #table_offers{
+        position: relative;
+        margin-left: 50px;
+    }
+    #product_header{
+        position: relative;
+        left: 50px;
+    }
+
+    #product_details{
+        position: absolute;
+        top: 200px;
+        left: 50px;
+        
+        margin: 5px;
+        height: 400px;
+        /* min-width: fit-content;
+        max-width: 100%; */
+        width: 600px;
+    }
+    #user_header{
+        position: relative;
+        left: 50px;
+    }
+    #user-details{
+        position: absolute;
+        top: 200px;
+        left: 650px;
+
+        height: 400px;
+        width: 400px;
+    }
+
+    #like-button{
+        position: absolute;
+        top: 400px;
+        left: 670px;
+        width: 100px;
+        height: 40px;
+        visibility: hidden;
+    }
+    #dislike-button{
+        position: absolute;
+        top: 400px;
+        left: 860px;
+        width: 100px;
+        height: 40px;
+        visibility: hidden;
+    }
+
+    .headers{
+        margin: 5px;
+        padding: 5px;
+    }
+
+
+    #offer-details{
+        height: 150px;
+        width: 1200px;
+        
+    }
+
+    .offer-details-data{
+        float: left;
+        position: static;
+        min-width: 50px;
+        max-width: 200px;
+        overflow: auto;
+        padding: 10px;
+    }
+    #Offer_productimage{
+        vertical-align: middle;
+        width: fit-content;
+        height: fit-content;
+    }
+
+
+    .product_details_data{
+        float: left;
+        position: relative;
+        width: 200px;
+        overflow: auto;
+        padding: 10px;
+        margin: 10px;
+    }
+
+
+    .user-details-data{
+        float: left;
+        position: relative;
+        min-width: 100px;
+        max-width: 200px;
+        overflow: auto;
+        padding: 10px;
+        margin: 10px;
+
+    }
+
+    .buttons{
+        right: 100%;
+        width: 100%;
+        height: 300px;
+        position: static;
+    }
+
+
+    #footer{
+        position: static;
+        height: 100px;
+    }
+
+}
+
+@media only screen and (max-device-width: 768px)
+/*MOBILES*/
+{
+
+}
