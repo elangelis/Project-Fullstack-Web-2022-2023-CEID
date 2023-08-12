@@ -52,11 +52,7 @@
           <h1>Register Account</h1>
         </div>
         <div class="form-content">
-<<<<<<< HEAD
           <div>
-=======
-          <form>
->>>>>>> 1b5fb0b1de7b1f5074f6655be32093823ab03dd2
             <div class="form-group">
               <label for="reg_user">Username</label>
               <input type="text" id="reg_user" name="reg_user" required="required"/>

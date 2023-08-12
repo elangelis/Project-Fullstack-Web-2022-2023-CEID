@@ -13,13 +13,9 @@ document.querySelector('.form-toggle').addEventListener('click', function(e) {
   document.querySelector('.form-panel.two').classList.remove('active');
 });
 
-<<<<<<< HEAD
-  var loc = window.location.pathname;
-  console.log(loc);
-  
-=======
 
->>>>>>> 1b5fb0b1de7b1f5074f6655be32093823ab03dd2
+  
+
   var panelOne = document.querySelector('.form-panel.one');
   var panelTwo = document.querySelector('.form-panel.two');
 
@@ -39,7 +35,6 @@ document.querySelector('.form-toggle').addEventListener('click', function(e) {
             userdata.user       = username_login;
             userdata.email      = email_login;
 
-<<<<<<< HEAD
           $.ajax({
             url: 'LoginUser.php',
             type: 'post',
@@ -64,20 +59,6 @@ document.querySelector('.form-toggle').addEventListener('click', function(e) {
                 alert('Connection to Database Has failed. Unable to Log in');
             }
           });
-=======
-        $.ajax({
-          url: 'LoginUser.php',
-          type: 'post',
-          data: {user:JSON.stringify(userdata)},
-          success: function(data) {
-            console.log(data); 
-          },
-          error:function(e){
-              console.log(e);
-              alert('Connection to Database Has failed. Unable to Log in');
-          }
-      });
->>>>>>> 1b5fb0b1de7b1f5074f6655be32093823ab03dd2
       }
       else if(username_login==''){
         alert('Username is required in order to Log in!');
