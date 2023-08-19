@@ -14,21 +14,12 @@
 <body>
     <header class="header_class" id="header">
         <?php
-<<<<<<< HEAD
         require_once  "C:/xampp/htdocs/Web_Project-full-stack/1.LoginPage/LoginUser.php";
         require_once  "C:/xampp/htdocs/Web_Project-full-stack/1.LoginPage/RegisterUser.php";
         ?>
         <div id="User_loggedin">you are logged in as:
             <?php
         require_once  "C:/xampp/htdocs/Web_Project-full-stack/1.LoginPage/LoginUser.php";
-=======
-        require_once  "./1.LoginPage/LoginUser.php";
-        require_once  "./1.LoginPage/RegisterUser.php";
-        ?>
-        <div id="User_loggedin">you are logged in as:
-            <?php
-        require_once  "./1.LoginPage/LoginUser.php";
->>>>>>> 1b5fb0b1de7b1f5074f6655be32093823ab03dd2
                 echo $_SESSION['Logged User'];
             ?>
         </div>

@@ -31,9 +31,8 @@
     if(isset($_POST['user'])){
         if(isset($_SESSION['login_user'])){
         
-            echo json_encode('You have already Logged in, you will be redirected to Main Page automatically');
-    
-            header('location: ./2.Mainpage/MainMenuPage.php');
+           
+            echo json_encode('success');
     
             return;
         }
@@ -108,7 +107,9 @@
                                     $_SESSION['Logged Email']=$reg_email;
     
                                     session_regenerate_id();                            
-                                    header('location: ./2.Mainpage/MainMenuPage.php');
+                                    
+                                    echo json_encode('success');
+                            
                                     return;   
                                 }
                                 catch(PDOException $e){

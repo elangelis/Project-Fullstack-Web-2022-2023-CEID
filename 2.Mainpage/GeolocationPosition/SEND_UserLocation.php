@@ -1,6 +1,6 @@
 <?php
     
-    require_once "./ApacheRESTServices/SETUP_connection.php";
+    require_once "C:/xampp/htdocs/Web_Project-full-stack/ApacheRESTServices/SETUP_connection.php";
 
     $userData = json_decode($_POST['userdata1']);
     $lat=$userData->lat;

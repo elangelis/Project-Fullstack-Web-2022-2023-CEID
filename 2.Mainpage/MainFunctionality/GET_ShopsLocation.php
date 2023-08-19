@@ -1,7 +1,6 @@
 <?php
 
-
-require_once "./ApacheRESTServices/SETUP_connection.php";
+    require_once "C:/xampp/htdocs/Web_Project-full-stack/ApacheRESTServices/SETUP_connection.php";
 
 $case = json_decode($_POST['call_case']);
 

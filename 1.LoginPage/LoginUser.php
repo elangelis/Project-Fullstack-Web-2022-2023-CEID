@@ -26,8 +26,7 @@
     if(isset($_POST['user'])){
         if(isset($_SESSION['login_user'])){
         
-            echo json_encode('You have already Logged in, you will be redirected to Main Page automatically');
-    
+            
             echo json_encode('success');
     
             return;
