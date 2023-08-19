@@ -1,13 +1,5 @@
 <?php
 
-<<<<<<< HEAD
-=======
-//database connection
-// require_once 'SETUP_config.php';
-
-require_once "./ApacheRESTServices/SETUP_config.php";
->>>>>>> 1b5fb0b1de7b1f5074f6655be32093823ab03dd2
-
 	require_once "C:/xampp/htdocs/Web_Project-full-stack/ApacheRESTServices/SETUP_config.php";
 
 	session_start();
@@ -30,6 +22,7 @@ require_once "./ApacheRESTServices/SETUP_config.php";
 		exit('Database error');
 
 	}
+
 
 ?>
 

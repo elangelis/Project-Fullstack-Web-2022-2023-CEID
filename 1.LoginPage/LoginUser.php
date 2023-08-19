@@ -26,7 +26,6 @@
     if(isset($_POST['user'])){
         if(isset($_SESSION['login_user'])){
         
-            
             echo json_encode('success');
     
             return;
@@ -47,10 +46,10 @@
                         try{
                             
                             $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email';
-                            $get= $pdo->prepare($Get_user_id);
-                            $get->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
+                            $trygetuserid= $pdo->prepare($Get_user_id);
+                            $trygetuserid->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
                             
-                            $_SESSION['User ID']=$get->fetchColumn();
+                            $_SESSION['User ID']=$trygetuserid->fetchColumn();
         
                             $_SESSION['Logged User']=$login_username;
                             $_SESSION['Logged Password']=$login_password;
