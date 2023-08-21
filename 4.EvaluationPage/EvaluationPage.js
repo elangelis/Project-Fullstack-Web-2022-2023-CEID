@@ -73,13 +73,28 @@ function Create_OffersTable(ArrayIn){
     var body='';
     let i=0;
 
+
     while(i<ArrayIn.length){
+        
+        let criteria_A='';
+        let criteria_B='';
+
+        if (ArrayIn[i].criteria_A==0){
+            criteria_A='Όχι';
+        }else if(ArrayIn[i].criteria_A==1){
+            criteria_A='Ναί';
+        }
+        if (ArrayIn[i].criteria_B==0){
+            criteria_B='Όχι';
+        }else if(ArrayIn[i].criteria_B==1){
+            criteria_B='Ναί';
+        }
 
         body+=  '<tr id="Row_'+ArrayIn[i].id+'">'+
                     '<td>'+ArrayIn[i].productname+'</td>'+
                     '<td>'+ArrayIn[i].product_price+'</td>'+
-                    '<td>'+ArrayIn[i].criteriaA+'</td>'+
-                    '<td>'+ArrayIn[i].criteriaB+'</td>'+
+                    '<td>'+criteria_A+'</td>'+
+                    '<td>'+criteria_B+'</td>'+
                     '<td>'+ArrayIn[i].creation_date+'</td>'+
                     '<td>'+ArrayIn[i].likes+'</td>'+
                     '<td>'+ArrayIn[i].dislikes+'</td>'+
