@@ -43,11 +43,11 @@ document.querySelector('.form-toggle').addEventListener('click', function(e) {
               let response =JSON.parse(data);
               if(response=='success'){
                 
-                window.location.href='http://localhost/Web_Project-full-stack/2.Mainpage/MainMenuPage.php';
+                window.location.href='http://localhost/web-v.1.0.0.1/2.Mainpage/MainMenuPage.php';
 
               }else if(response=='success_admin'){
                 
-                window.location.href='http://localhost/Web_Project-full-stack/3.AdminPage/AdminPage.php';
+                window.location.href='http://localhost/web-v.1.0.0.1/3.AdminPage/AdminPage.php';
               
               }else{
                 console.log(response);
