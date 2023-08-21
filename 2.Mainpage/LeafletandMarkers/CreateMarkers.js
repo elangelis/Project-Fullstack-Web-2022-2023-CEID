@@ -571,7 +571,7 @@ function CheckIfUserLocationIsClosetoShopLocation(in_shopid){
     let distance;
 
     //Get User Latitude, Longitude
-    navigator.geolocation.getCurrentPosition(successForce,error,options);
+    navigator.geolocation.getCurrentPosition(successForce,errorCallback,options);
     //Get Shop Latitude, Longitude
     let CurrentShop=[];
     DataBase_ShopDetails.forEach(shop => {

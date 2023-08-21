@@ -10,7 +10,7 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
     
 
     session_reset();
-
-    header('location: C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginMenuPage.php');
+    echo json_encode('logout');
+    return;
     
 ?>

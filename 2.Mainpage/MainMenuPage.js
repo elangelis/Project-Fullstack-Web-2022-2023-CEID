@@ -124,6 +124,9 @@ Log_out_btn.addEventListener("click", () => {
       url: './MainFunctionality/Logout.php',
       type: 'post',
       success: function(e) {
+        if(e=='logout'){
+          window.location.href='http://localhost/web-v.1.0.0.1/1.LoginPage/LoginMenuPage.php';
+        }
       },
       error:function(e){
         console.log(e);
@@ -243,57 +246,57 @@ function CreateLikesHistoryTable(userid){
   let tablebody='';
   let tablerow='';
 
-  $.ajax({
-    url: './MainFunctionality/Logout.php',
-    type: 'post',
-    data: userid,
-    success: function(data) {
-      console.log(data);
-      LikesHistoryTable=JSON.parse(data);
-      console.log(LikesHistoryTable);
-      if(LikesHistoryTable.length>0){
-        i=1;
-        LikesHistoryTable.forEach(row => {
+  // $.ajax({
+  //   url: './MainFunctionality/Logout.php',
+  //   type: 'post',
+  //   data: userid,
+  //   success: function(data) {
+  //     console.log(data);
+  //     LikesHistoryTable=JSON.parse(data);
+  //     console.log(LikesHistoryTable);
+  //     if(LikesHistoryTable.length>0){
+  //       i=1;
+  //       LikesHistoryTable.forEach(row => {
           
-          let no='';
-          let action='';
-          let offerno='';
-          let date='';
-          let publisher='';
+  //         let no='';
+  //         let action='';
+  //         let offerno='';
+  //         let date='';
+  //         let publisher='';
           
-          if(row.no!=undefined){
-            no=row.no;
-          }
-          if(row.action!=undefined){
-            action=row.action;
-          }
-          if(row.offerno!=undefined){
-            offerno=row.offerno;
-          }
-          if(row.date!=undefined){
-            date=row.date;
-          }
-          if(row.publisher!=undefined){
-            publisher=row.publisher;
-          }
-          tablerow= '<tr id="likes_row'+i+'" class="likes_row">'+
-                      '<td class="likes_cell_rank">'+no+'</td>'+
-                      '<td class="likes_cell">'+action+'</td>'+
-                      '<td class="likes_cell">'+offerno+'</td>'+
-                      '<td class="likes_cell">'+date+'</td>'+
-                      '<td class="likes_cell">'+publisher+'</td>'+
-                    '</tr>';
-          tablebody+=tablerow;
-          i++;
-        });    
-        table.innerHTML(tablebody);
-      }
-    },
-    error:function(e){
-      console.log(e);
-    }
+  //         if(row.no!=undefined){
+  //           no=row.no;
+  //         }
+  //         if(row.action!=undefined){
+  //           action=row.action;
+  //         }
+  //         if(row.offerno!=undefined){
+  //           offerno=row.offerno;
+  //         }
+  //         if(row.date!=undefined){
+  //           date=row.date;
+  //         }
+  //         if(row.publisher!=undefined){
+  //           publisher=row.publisher;
+  //         }
+  //         tablerow= '<tr id="likes_row'+i+'" class="likes_row">'+
+  //                     '<td class="likes_cell_rank">'+no+'</td>'+
+  //                     '<td class="likes_cell">'+action+'</td>'+
+  //                     '<td class="likes_cell">'+offerno+'</td>'+
+  //                     '<td class="likes_cell">'+date+'</td>'+
+  //                     '<td class="likes_cell">'+publisher+'</td>'+
+  //                   '</tr>';
+  //         tablebody+=tablerow;
+  //         i++;
+  //       });    
+  //       table.innerHTML(tablebody);
+  //     }
+  //   },
+  //   error:function(e){
+  //     console.log(e);
+  //   }
 
-  });
+  // });
 }
 
 function CreateOffersHistoryTable(userid){
@@ -303,65 +306,65 @@ function CreateOffersHistoryTable(userid){
   let tablebody='';
   let tablerow='';
 
-  $.ajax({
-    url: './MainFunctionality/Logout.php',
-    type: 'post',
-    data: userid,
-    success: function(data) {
-      console.log(data);
-      OffersHistoryTable=JSON.parse(data);
-      console.log(OffersHistoryTable);
-      if(OffersHistoryTable.length>0){
-        i=1;
-        OffersHistoryTable.forEach(row => {
+  // $.ajax({
+  //   url: './MainFunctionality/Logout.php',
+  //   type: 'post',
+  //   data: userid,
+  //   success: function(data) {
+  //     console.log(data);
+  //     OffersHistoryTable=JSON.parse(data);
+  //     console.log(OffersHistoryTable);
+  //     if(OffersHistoryTable.length>0){
+  //       i=1;
+  //       OffersHistoryTable.forEach(row => {
           
-          let no='';
-          let offerid='';
-          let sumbdate='';
-          let active='';
-          let price='';
-          let shop='';
+  //         let no='';
+  //         let offerid='';
+  //         let sumbdate='';
+  //         let active='';
+  //         let price='';
+  //         let shop='';
           
-          if(row.no!=undefined){
-            no=row.no;
-          }
-          if(row.offerid!=undefined){
-            offerid=row.offerid;
-          }
-          if(row.sumbdate!=undefined){
-            sumbdate=row.sumbdate;
-          }
-          if(row.active!=undefined){
-            if(row.active==1){
-              active='YES';
-            }else{
-              active='NO';
-            }
-          }
-          if(row.price!=undefined){
-            price=row.price;
-          }
-          if(row.shop!=undefined){
-            shop=row.shop;
-          }
-          tablerow= '<tr id="offer_row'+i+'" class="offer_row">'+
-                      '<td class="offer_cell_rank">'+no+'</td>'+
-                      '<td class="offer_cell">'+offerid+'</td>'+
-                      '<td class="offer_cell">'+sumbdate+'</td>'+
-                      '<td class="offer_cell">'+active+'</td>'+
-                      '<td class="offer_cell">'+price+'</td>'+
-                      '<td class="offer_cell">'+shop+'</td>'+
-                    '</tr>';
-          tablebody+=tablerow;
-          i++;
-        });    
-        table.innerHTML(tablebody);
-      }
-    },
-    error:function(e){
-      console.log(e);
-    }
-  });
+  //         if(row.no!=undefined){
+  //           no=row.no;
+  //         }
+  //         if(row.offerid!=undefined){
+  //           offerid=row.offerid;
+  //         }
+  //         if(row.sumbdate!=undefined){
+  //           sumbdate=row.sumbdate;
+  //         }
+  //         if(row.active!=undefined){
+  //           if(row.active==1){
+  //             active='YES';
+  //           }else{
+  //             active='NO';
+  //           }
+  //         }
+  //         if(row.price!=undefined){
+  //           price=row.price;
+  //         }
+  //         if(row.shop!=undefined){
+  //           shop=row.shop;
+  //         }
+  //         tablerow= '<tr id="offer_row'+i+'" class="offer_row">'+
+  //                     '<td class="offer_cell_rank">'+no+'</td>'+
+  //                     '<td class="offer_cell">'+offerid+'</td>'+
+  //                     '<td class="offer_cell">'+sumbdate+'</td>'+
+  //                     '<td class="offer_cell">'+active+'</td>'+
+  //                     '<td class="offer_cell">'+price+'</td>'+
+  //                     '<td class="offer_cell">'+shop+'</td>'+
+  //                   '</tr>';
+  //         tablebody+=tablerow;
+  //         i++;
+  //       });    
+  //       table.innerHTML(tablebody);
+  //     }
+  //   },
+  //   error:function(e){
+  //     console.log(e);
+  //   }
+  // });
 }
 
 function GetUserScore(userid){
@@ -371,23 +374,23 @@ function GetUserScore(userid){
     let cur_sc = document.getElementById('total_score');
     let total_sc = document.getElementById('current_score');
 
-    $.ajax({
-      url: './MainFunctionality/GET_UserScores.php',
-      type: 'post',
-      data: userid,
-      success: function(data) {
-        var out;
-        console.log(data);
-        out = JSON.parse(data);
-        console.log(out);
-        total_tok.value   = out.total_tokens;
-        cur_tok.value     = out.current_tokens;
-        cur_sc.value      = out.total_score;
-        total_sc.value    = out.current_score;
-      },
-      error: function(e){
-        console.log('Error has occured contact your system Administrator');
-      }
-    });
+    // $.ajax({
+    //   url: './MainFunctionality/GET_UserScores.php',
+    //   type: 'post',
+    //   data: userid,
+    //   success: function(data) {
+    //     var out;
+    //     console.log(data);
+    //     out = JSON.parse(data);
+    //     console.log(out);
+    //     total_tok.value   = out.total_tokens;
+    //     cur_tok.value     = out.current_tokens;
+    //     cur_sc.value      = out.total_score;
+    //     total_sc.value    = out.current_score;
+    //   },
+    //   error: function(e){
+    //     console.log('Error has occured contact your system Administrator');
+    //   }
+    // });
 
   }
