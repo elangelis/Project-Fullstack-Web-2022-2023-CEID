@@ -1,6 +1,6 @@
 <?php
 
-include_once "./ApacheRESTServices/SETUP_connection.php";
+require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";
 
 
 $sth = $pdo->prepare("Call Database_AllUserDetails();");

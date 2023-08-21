@@ -23,7 +23,7 @@ function GetDataBaseData(){
 
 function GetAllShopDetails(){
     $.ajax({
-        url: 'Database_AllShopDetails.php',
+        url: '../ApacheRESTServices/GET_Database_AllShopDetails.php',
         type: 'post',
         async:true,
         success: function(Response) {
@@ -42,7 +42,7 @@ function GetAllShopDetails(){
 function GetAllOffers(){
     
     $.ajax({
-        url: 'Database_AllOfferDetails.php',
+        url: '../ApacheRESTServices/GET_Database_AllOfferDetails.php',
         async:true,
         type: 'post',
         success: function(Response) {
@@ -60,7 +60,7 @@ function GetAllOffers(){
 
 function GetCurrentUserData(){
     $.ajax({
-        url: 'Database_AllUserDetails.php',
+        url: '../ApacheRESTServices/GET_Database_AllUserDetails.php',
         type: 'post',
         async:true,
         success: function(Response) {
@@ -78,7 +78,7 @@ function GetCurrentUserData(){
 
 function GetProductDetails(){
     $.ajax({
-        url: 'Database_AllProductDetails.php',
+        url: '../ApacheRESTServices/GET_Database_AllProductDetails.php',
         type: 'post',
         async:true,
         success: function(Response) {

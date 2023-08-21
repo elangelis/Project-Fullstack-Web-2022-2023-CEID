@@ -502,7 +502,8 @@ function AssignNewSessionShopID_ForEvaluation(in_shopid){
     
     if(CheckIfUserLocationIsClosetoShopLocation(in_shopid)){
         $.ajax({
-            url: '/ApacheRESTServices/SEND_NewSesssionShopID.php',
+            url:'C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SEND_NewSesssionShopID.php',
+            // url: './ApacheRESTServices/SEND_NewSesssionShopID.php',
             type: 'post',
             async:true,
             data: {shop_id:JSON.stringify(in_shopid)},

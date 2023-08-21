@@ -220,7 +220,7 @@ function SelectTab(tabName){
 
 window.addEventListener('load',function(e){
   $.ajax({
-    url: 'GET_UserID.php',
+    url: 'MainFunctionality/GET_UserID.php',
     type: 'post',
     success: function(data) {
       if(data=='error'){
@@ -244,7 +244,7 @@ function CreateLikesHistoryTable(userid){
   let tablerow='';
 
   $.ajax({
-    url: 'MainFunctionality/Logout.php',
+    url: '/MainFunctionality/Logout.php',
     type: 'post',
     data: userid,
     success: function(data) {
@@ -304,7 +304,7 @@ function CreateOffersHistoryTable(userid){
   let tablerow='';
 
   $.ajax({
-    url: 'MainFunctionality/Logout.php',
+    url: '/MainFunctionality/Logout.php',
     type: 'post',
     data: userid,
     success: function(data) {
@@ -372,7 +372,7 @@ function GetUserScore(userid){
     let total_sc = document.getElementById('current_score');
 
     $.ajax({
-      url: 'MainFunctionality/GET_UserScores.php',
+      url: '/MainFunctionality/GET_UserScores.php',
       type: 'post',
       data: userid,
       success: function(data) {

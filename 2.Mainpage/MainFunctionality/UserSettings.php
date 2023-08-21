@@ -1,7 +1,7 @@
 <?php
     
     
-    require "./Apache REST Services/SETUP_connection.php";
+    require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";
 
     $usernewdata = json_decode($_POST['usernewdata']);
     $password=$usernewdata->pass;
