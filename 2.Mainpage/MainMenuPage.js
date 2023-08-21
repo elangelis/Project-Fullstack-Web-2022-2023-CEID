@@ -121,7 +121,7 @@ Log_out_btn.addEventListener("click", () => {
   if(confirm('Are you sure you want to Log Out? \nYou will be redirected to Log in Page.')){
     
     $.ajax({
-      url: 'MainFunctionality/Logout.php',
+      url: './MainFunctionality/Logout.php',
       type: 'post',
       success: function(e) {
       },
@@ -244,7 +244,7 @@ function CreateLikesHistoryTable(userid){
   let tablerow='';
 
   $.ajax({
-    url: '/MainFunctionality/Logout.php',
+    url: './MainFunctionality/Logout.php',
     type: 'post',
     data: userid,
     success: function(data) {
@@ -304,7 +304,7 @@ function CreateOffersHistoryTable(userid){
   let tablerow='';
 
   $.ajax({
-    url: '/MainFunctionality/Logout.php',
+    url: './MainFunctionality/Logout.php',
     type: 'post',
     data: userid,
     success: function(data) {
@@ -372,7 +372,7 @@ function GetUserScore(userid){
     let total_sc = document.getElementById('current_score');
 
     $.ajax({
-      url: '/MainFunctionality/GET_UserScores.php',
+      url: './MainFunctionality/GET_UserScores.php',
       type: 'post',
       data: userid,
       success: function(data) {
