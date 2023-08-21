@@ -123,7 +123,8 @@ Log_out_btn.addEventListener("click", () => {
     $.ajax({
       url: './MainFunctionality/Logout.php',
       type: 'post',
-      success: function(e) {
+      success: function(data) {
+        e=JSON.parse(data);
         if(e=='logout'){
           window.location.href='http://localhost/web-v.1.0.0.1/1.LoginPage/LoginMenuPage.php';
         }

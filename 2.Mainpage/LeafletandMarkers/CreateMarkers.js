@@ -502,8 +502,7 @@ function AssignNewSessionShopID_ForEvaluation(in_shopid){
     
     if(CheckIfUserLocationIsClosetoShopLocation(in_shopid)){
         $.ajax({
-            url:'C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SEND_NewSesssionShopID.php',
-            // url: './ApacheRESTServices/SEND_NewSesssionShopID.php',
+            url:'../ApacheRESTServices/SEND_NewSesssionShopID.php',
             type: 'post',
             async:true,
             data: {shop_id:JSON.stringify(in_shopid)},
@@ -539,7 +538,7 @@ function AssignNewSessionShopID_ForSubmit(in_shopid){
         });
 
         $.ajax({
-            url: '/ApacheRESTServices/SEND_NewSesssionShopID.php',
+            url: '../ApacheRESTServices/SEND_NewSesssionShopID.php',
             type: 'post',
             async:true,
             data: {shop_id:JSON.stringify(in_shopid)},
@@ -593,7 +592,7 @@ function CheckIfUserLocationIsClosetoShopLocation(in_shopid){
             console.log('Current Distance is:\n' + newdistance +'  in meters');
         }else{
             successflag=false;       //TODOERG
-            // successflag=true;   //Return Always true for now so we can modify Pages and FunctionalityTODOERG
+            successflag=true;   //Return Always true for now so we can modify Pages and FunctionalityTODOERG
             console.log('Current Distance is:\n' + newdistance +'  in meters');
         }
     }return(successflag);

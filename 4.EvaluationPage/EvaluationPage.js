@@ -15,7 +15,7 @@ function GetCurrentShopId(){
         CurrentOfferArrayForEvaluation.length=0;
 
         $.ajax({
-            url: 'PHP_GetCurrentShopIdForEvaluation.php',
+            url: 'GET_CurrentShopIdForEvaluation.php',
             type: 'post',
             success: function(data) {
                 response=JSON.parse(data);
@@ -53,7 +53,7 @@ function GetOffers(){
 
     //Fetch Data
     $.ajax({
-        url: 'GET_Offers-User-Product_Data.php',
+        url: 'GET_OffersUserProductData.php',
         type: 'post',
         success: function(data) {
             ArrayAllOffers.length=0;
@@ -78,8 +78,8 @@ function Create_OffersTable(ArrayIn){
         body+=  '<tr id="Row_'+ArrayIn[i].id+'">'+
                     '<td>'+ArrayIn[i].productname+'</td>'+
                     '<td>'+ArrayIn[i].product_price+'</td>'+
-                    '<td>'+ArrayIn[i].mesi_timi_day_critiria+'</td>'+
-                    '<td>'+ArrayIn[i].mesi_timi_week_critiria+'</td>'+
+                    '<td>'+ArrayIn[i].criteriaA+'</td>'+
+                    '<td>'+ArrayIn[i].criteriaB+'</td>'+
                     '<td>'+ArrayIn[i].creation_date+'</td>'+
                     '<td>'+ArrayIn[i].likes+'</td>'+
                     '<td>'+ArrayIn[i].dislikes+'</td>'+

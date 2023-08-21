@@ -1,6 +1,7 @@
 <?php
     
-include_once "./ApacheRESTServices/SETUP_connection.php";
+    
+    require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";
 
     $details = json_decode($_POST['details']);
     
