@@ -9,21 +9,24 @@
     $reg_confirm_password= "";
     $success_register = false;
     $password_conditions = '/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.* )(?=.*[^a-zA-Z0-9]).{8,}$/m';
+    
 
+    
     if(isset($_POST['user'])){
+        $user1=json_decode($_POST['user']);
+        
         try{
-            $user1=json_decode($_POST['user']);
             if(isset($user1)){
                 $reg_user               =   $user1->user;
                 $reg_pass               =   $user1->pass;
                 $reg_email              =   $user1->email;
                 $reg_confirm_password   =   $user1->conf_pass;
             }else{
-               echo json_encode('An Error has Occured.Contact your System Administrator.');
-               return; 
+                echo json_encode('An Error has Occured.Contact your System Administrator3.');
+                return; 
             }
         }catch(Exception $e){
-            echo json_encode('An Error has Occured.Contact your System Administrator.');
+            echo json_encode('An Error has Occured.Contact your System Administrator4.');
             return;
         }
     }
@@ -40,7 +43,7 @@
         {
             if(isset($reg_user)&&isset($reg_pass)&&isset($reg_email)&&isset($reg_confirm_password)){
                 
-                if($reg_user != "" || $reg_pass != "" || $reg_email != "" || $reg_confirm_password != ""){
+                if($reg_user != "" && $reg_pass != "" && $reg_email != "" && $reg_confirm_password != ""){
     
                     if($reg_pass == $reg_confirm_password){
         
@@ -77,7 +80,7 @@
         
                             $sql_check_email = 'SELECT COUNT(*) as total_1 FROM object_user WHERE email=:reg_email';
                             $count_email= $pdo->prepare($sql_check_email);
-                            $count_email->bindParam(':reg_email',$reg_pass,PDO::PARAM_STR_CHAR);
+                            $count_email->bindParam(':reg_email',$reg_email,PDO::PARAM_STR_CHAR);
                             $count_email->execute();
                             $email_exists= $count_email->fetchColumn();
                             if ($email_exists<>0){
@@ -93,12 +96,12 @@
                                     $statement = $pdo->prepare($sql_register);
                                     $statement->bindParam(':reg_user',$reg_user,PDO::PARAM_STR_CHAR);
                                     $statement->bindParam(':reg_pass',$reg_pass,PDO::PARAM_STR_CHAR);
-                                    $statement->bindParam(':reg_email',$reg_pass,PDO::PARAM_STR_CHAR);
+                                    $statement->bindParam(':reg_email',$reg_email,PDO::PARAM_STR_CHAR);
                                     $statement->execute();
         
                                     $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email';
                                     $get= $pdo->prepare($Get_user_id);
-                                    $get->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
+                                    $get->execute(array(':in_username'=>$reg_user,':in_email'=>$reg_email));
                                     
                                     $_SESSION['User ID']=$get->fetchColumn();
                                     $_SESSION['Logged User']=$reg_user;
@@ -109,11 +112,12 @@
                                     session_regenerate_id();                            
                                     
                                     echo json_encode('success');
-                            
                                     return;   
                                 }
+
                                 catch(PDOException $e){
-                                    echo json_encode('An Error has Occured.Contact your System Administrator.');
+                                    echo json_encode($e);
+                                    // echo json_encode('An Error has Occured.Contact your System Administrator5.');
                                     return; 
                                 }   
                             }
@@ -127,11 +131,11 @@
                         return;
                     }
                 }else{
-                    echo json_encode('An Error has Occured.Contact your System Administrator.');
+                    echo json_encode('An Error has Occured.Contact your System Administrator1.');
                     return; 
                 }
             }else{
-                echo json_encode('An Error has Occured.Contact your System Administrator.');
+                echo json_encode('An Error has Occured.Contact your System Administrator2.');
                 return; 
             }
         }

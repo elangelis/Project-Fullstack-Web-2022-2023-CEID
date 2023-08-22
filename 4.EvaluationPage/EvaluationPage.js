@@ -145,7 +145,6 @@ function Update_OfferDetails(number){
             document.getElementById('Offer_dislikes').innerText         = offer.dislikes;
             
             if(offer.has_stock==1){
-                
                 document.getElementById('Offer_stock').innerText    = 'Ναί';   
                 document.getElementById('status').style.visibility='visible';
                 document.getElementById('ChangeStockStatus').style.visibility='visible';
@@ -236,7 +235,8 @@ function ChangedStock(){
             // document.getElementById('Offer_stock').innerText    = 'Όχι';
             // document.getElementById('like-button').style.visibility='hidden';
             // document.getElementById('dislike-button').style.visibility='hidden';
-            ChangeStockStatusCall(CurrentOfferShown.id,false);      
+            ChangeStockStatusCall(CurrentOfferShown.id,false);
+            
         }
     }else if(CurrentOfferShown.has_stock==0)
     {
@@ -262,16 +262,17 @@ function ChangeStockStatusCall(offerid,flag){
                 if(reponse=='error'){
                     if(flag==true){
                         alert('An Error Has Occured coulnt update current status to: Available');
-
                     }else if(flag==false){
                         alert('An Error has Occured couldnt update current status to: Unavailable')
                     }
                 }else{
                     if(flag==true){
+                        CurrentOfferShown.has_stock=1;
                         document.getElementById('Offer_stock').innerText    = 'Ναί';
                         document.getElementById('like-button').style.visibility='visible';
                         document.getElementById('dislike-button').style.visibility='visible';
                     }else if(flag==false){
+                        CurrentOfferShown.has_stock=0;
                         document.getElementById('Offer_stock').innerText    = 'Όχι';
                         document.getElementById('like-button').style.visibility='hidden';
                         document.getElementById('dislike-button').style.visibility='hidden';

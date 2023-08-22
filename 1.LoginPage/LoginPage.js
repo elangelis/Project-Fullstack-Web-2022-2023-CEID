@@ -50,7 +50,7 @@ document.querySelector('.form-toggle').addEventListener('click', function(e) {
                 window.location.href='http://localhost/web-v.1.0.0.1/3.AdminPage/AdminPage.php';
               
               }else{
-                console.log(response);
+                alert(response);
               }
               console.log(data); 
             },
@@ -138,8 +138,8 @@ document.querySelector('.form-toggle').addEventListener('click', function(e) {
 
   function RegisterUser(us,pass,email,conf_pass){
     var userdata = {};
-    userdata.pass       = us;
-    userdata.user       = pass;
+    userdata.pass       = pass;
+    userdata.user       = us;
     userdata.email      = email;
     userdata.conf_pass  = conf_pass;
     $.ajax({
@@ -148,7 +148,13 @@ document.querySelector('.form-toggle').addEventListener('click', function(e) {
       async: false,
       data: {user:JSON.stringify(userdata)},
       success: function(data) {
-        console.log(data); 
+        let e=JSON.parse(data);
+        console.log(e); 
+        if(e='success'){
+          window.location.href='http://localhost/web-v.1.0.0.1/2.Mainpage/MainMenuPage.php';
+        }else{
+          alert(e);
+        }
       },
       error:function(e){
           console.log(e);

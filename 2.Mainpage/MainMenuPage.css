@@ -113,6 +113,7 @@
         z-index: 100001;
         display: block;
         visibility: visible;
+        /* resize: both; */
         position: relative;
         top: 20%;
         left: 20%;
@@ -127,6 +128,7 @@
         display: block;
         visibility: visible;
         align-items: center;
+        /* resize: both; */
         top: 10px;
         left: 15%;
         width: 750px;
@@ -535,19 +537,19 @@
     #score_border{
         top: 280px;
         position: absolute;
-        left: 50px;
+        left: 10%;
         border-style: groove;
         border-color: aliceblue;
-        width: 700px;
+        width: 80%;
         height: 150px;
     }
     #tokens_border{
         top: 100px;
         position: absolute;
-        left: 50px;
+        left: 10%;
         border-style: groove;
         border-color: aliceblue;
-        width: 700px;
+        width: 80%;
         height: 150px;
     }
 

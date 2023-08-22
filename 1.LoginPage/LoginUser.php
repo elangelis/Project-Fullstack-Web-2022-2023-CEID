@@ -89,6 +89,10 @@
                             return;
                         }
                     }
+                    
+                    echo json_encode('User Could not be found!');
+                    return;
+                    
                 }
                 else{
                     echo json_encode('Please fill in fields before trying to Login');
