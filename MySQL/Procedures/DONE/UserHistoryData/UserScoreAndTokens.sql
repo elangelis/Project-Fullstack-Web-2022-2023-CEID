@@ -1,9 +1,13 @@
 
+
+
+
+
 DELIMITER ;
-DROP PROCEDURE IF EXISTS Database_UserScores;
+DROP PROCEDURE IF EXISTS UserScoreAndTokens;
 
 DELIMITER $$
-CREATE PROCEDURE IF NOT EXISTS Database_UserScores(IN userid INTEGER)
+CREATE PROCEDURE IF NOT EXISTS UserScoreAndTokens(IN userid INTEGER)
 BEGIN
      IF(userid IS NOT NULL AND userid!=0)THEN
           SELECT    u.username               as  username,
