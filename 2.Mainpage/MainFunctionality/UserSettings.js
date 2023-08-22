@@ -31,14 +31,19 @@ $( "#Change_Credentials_Form" ).submit(
       userdata.email      = $( "#Change_Email" ).val();
 
       $.ajax({
-          url: "UserSettings.php",
+
+          url: "MainFunctionality/UserSettings.php",
           type: "POST",
           data:  {usernewdata:JSON.stringify(userdata)},
           success: function(e){    
             let response=JSON.parse(e);
             console.log(response);
-            window.location.reload();
-            console.log(userdata);
+            if(response=='success'){
+              alert('User Credentials have succesfully updated!');
+              window.location.reload();
+            }else{
+              alert(response);
+            }
             // FindOffersTable();
             
           },

@@ -3,10 +3,10 @@
     
     require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";
 
-    echo json_encode($_SESSION['User ID']);
-    return;
-    
+
     $usernewdata = json_decode($_POST['usernewdata']);
+
+    
 
     $password           =   $usernewdata    ->pass;
     $confirm_password   =   $usernewdata    ->conf_pass;
@@ -23,8 +23,11 @@
         $update= $pdo->prepare($sql_update_credentials);
         $update->execute(array(':in_username'=>$username,':in_password'=>$password,':in_email'=>$e_mail,':in_User_ID'=>$_SESSION['User ID']));
         $error=false;
+        echo json_encode('success');
+
     }catch (PDOException $e){
         $error=true;
+        echo json_encode($e);
     }
 
     if ($error===false){
@@ -33,4 +36,5 @@
         $_SESSION['Logged Confirm Password']=$password;
         $_SESSION['Logged Email']=$e_mail;
     }  
+    return;
 ?>
