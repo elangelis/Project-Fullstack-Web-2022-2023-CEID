@@ -1,14 +1,14 @@
 
 
 
-const pass_input = document.getElementById("Change_Password");
-const Conf_pass_input = document.getElementById("Confirm_Password");
-const Change_Email=document.getElementById("Change_Email");
-const Change_User=document.getElementById("Change_User");
+var pass_input = document.getElementById("Change_Password");
+var Conf_pass_input = document.getElementById("Confirm_Password");
+var Change_Email=document.getElementById("Change_Email");
+var Change_User=document.getElementById("Change_User");
 
 
-const Show_Password = document.getElementById("Show_Password");
-const Update_Credentials = document.getElementById("Update_Credentials");
+var Show_Password = document.getElementById("Show_Password");
+var Update_Credentials = document.getElementById("Update_Credentials");
 
 Show_Password.addEventListener("click", function () {
   
@@ -32,13 +32,19 @@ $( "#Change_Credentials_Form" ).submit(
 
       $.ajax({
           url: "UserSettings.php",
-          data:  {usernewdata:JSON.stringify(userdata)},
           type: "POST",
-          success: function(){    
+          data:  {usernewdata:JSON.stringify(userdata)},
+          success: function(e){    
+            let response=JSON.parse(e);
+            console.log(response);
             window.location.reload();
             console.log(userdata);
-            FindOffersTable();
-            return true;
+            // FindOffersTable();
+            
+          },
+          error:function(e){
+            let response=JSON.parse(e);
+            console.log(response);
           }
       });
       // simple way to prevent default action of form submission:

@@ -58,6 +58,17 @@ CREATE TABLE object_user
     UNIQUE KEY (email,password)
 );
 
+    
+DELIMITER ;
+DROP TRIGGER IF EXISTS OnAfterInsert_CreateUserScoreRecord;
+
+DELIMITER $$   
+CREATE TRIGGER OnAfterInsert_CreateUserScoreRecord AFTER INSERT  
+ON object_user FOR EACH ROW  
+BEGIN
+    INSERT INTO Archive_score_TOTAL (user_id,score) VALUES(new.id,0);
+END$$ 
+DELIMITER ; 
 
 
 --  //---------------------------------------------------------------------------------------------------------------------------------------//

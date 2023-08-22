@@ -29,3 +29,15 @@ CREATE TABLE object_user
 );
 
 insert into object_user (username,password,email) values("ilias2","1234","elangelis2@yahoo.gr");
+
+    
+DELIMITER ;
+DROP TRIGGER IF EXISTS OnAfterInsert_CreateUserScoreRecord;
+
+DELIMITER $$   
+CREATE TRIGGER OnAfterInsert_CreateUserScoreRecord AFTER INSERT  
+ON object_user FOR EACH ROW  
+BEGIN
+    INSERT INTO Archive_score_TOTAL (user_id,score) VALUES(new.id,0);
+END$$ 
+DELIMITER ; 
