@@ -215,26 +215,101 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
                 echo json_encode($error);
             }
 
-        }
-
-
+        }elseif($opt==2)
+        {
+            $success=false;
+            $error='';
+            $product_prices=$arr->data;
+            if(isset($product_prices)){
+                // GET CATEGORIES AND SUBCATEGORIES FROM JSON 
+                $rowpointer=0;
+                foreach ($product_prices as $row=>$product) {
+                
+                    foreach ($product as $key => $value) {
         
+                        if($key=='id')
+                        {
+                            $product_id=$value;
+                        }
+                        elseif ($key=='name')
+                        {
+                            $product_name=$value;
+                        }
+                        elseif($key=='prices')
+                        {   
+                            $prices=$value;
+                            foreach ($prices as $row_price => $priceid) {
+                                foreach($priceid as $key2=>$value2){
+                                    if($key2=='date'){
+        
+                                        $ARRAY_PRODPRICES[$rowpointer]['date']=$value2;
+                                    }
+                                    elseif($key2=='price'){
+        
+                                        $ARRAY_PRODPRICES[$rowpointer]['price']=$value2;
+                                    }
+                                    
+                                }
+                                $ARRAY_PRODPRICES[$rowpointer]['product_id']    =   $product_id;
+                                $ARRAY_PRODPRICES[$rowpointer]['product_name']  =   $product_name;
+                                $rowpointer=$rowpointer+1;
+                            }
+                        }
+                    }
+                }
+                $success=true;
+            }
 
+            if(isset($ARRAY_PRODPRICES)){
+
+                $product_price_success=true;
+                foreach ($ARRAY_PRODPRICES as $product_priceforinsert=>$row) {
+                    unset($prod_id);
+                    unset($prod_name);
+                    unset($price);
+                    unset($date);
+                    foreach ($row as $attribute => $value) {
+                        
+                        if($attribute=='prod_id'){
+                            $prod_id=$value;
+                        }
+                        elseif($attribute=='prod_name')
+                        {
+                            $prod_name=$value;
+                        }
+                        elseif($attribute=='price')
+                        {
+                            $price=$value;
+                        }
+                        elseif($attribute=='date')
+                        {
+                            $date=$value;
+                        }
+                    }
+                    if(isset($prod_id)&& isset($prod_name)&&isset($price)&&isset($date)){
+                        try{
+                            $insert3 = 'CALL ADMIN_InsertProductPrices(:prod_id,:prod_name,:price,:date);';
+                            $insertproducts= $pdo->prepare($insert3);
+                            $insertproducts->execute(array(':prod_id'=>$prod_id,':prod_name'=>$prod_name,':price'=>$price,':date'=>$date));
+
+                        }
+                        catch(Exception $e){
+                            $error=$error+$e;
+                            $product_price_success=false;
+                        }
+                    }
+                }       
+            }
+            if($product_price_success==true && $success==true){
+                echo json_encode('Insert succesful for product prices!');
+                return;
+            }else{
+                echo json_encode($error);
+                return;
+            }
+        }
     }
 
-    elseif($opt==2)
-    {
-
-    }
-
-    // elseif($opt==3)
-    // {
-
-    // }    
-    // elseif($opt==4)
-    // {
-
-    // }
 
 
 
@@ -242,6 +317,4 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
 
 
 ?>
-
-
 

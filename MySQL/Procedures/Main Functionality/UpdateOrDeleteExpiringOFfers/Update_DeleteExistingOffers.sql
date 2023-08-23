@@ -39,7 +39,7 @@ BEGIN
         SET @current_offer_id=NULL;
 
         -- GET id,productid,productprice
-        SELECT product_price,product_id,offer.id INTO @current_offer_price,@current_offer_productid,@current_offer_id FROM object_offer WHERE id=@offer_counter;
+        SELECT product_price,product_id,id INTO @current_offer_price,@current_offer_productid,@current_offer_id FROM object_offer WHERE id=@offer_counter;
 
         IF (@current_offer_productid IS NOT NULL)THEN
             IF (@current_offer_price IS NOT NULL)THEN

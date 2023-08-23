@@ -4,8 +4,8 @@ var DataBase_UserData={};           //Array of all User Data in Databse
 var DataBase_ProductDetails={};     //Array of all Product Details In Database;
 
 window.addEventListener("DOMContentLoaded", (event) => {
-    UpdateNewDatabaseData();
     console.log("DOMContentLoaded trigger");
+    UpdateNewDatabaseData();
 });
 
 

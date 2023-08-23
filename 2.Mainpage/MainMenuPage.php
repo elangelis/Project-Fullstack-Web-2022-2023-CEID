@@ -121,6 +121,7 @@
                                         <th class="likes_header">Offer Number</th>
                                         <th class="likes_header">Date</th>
                                         <th class="likes_header">Offer Publisher</th>
+                                        <th class="likes_header">Shop Name</th>
                                     </tr>
                                 </thead>
                                 <tbody id="likes_history_body">
@@ -179,9 +180,9 @@
                                         <th id="offer_header_rank">No.</th>
                                         <th class="offer_header">Offer ID</th>
                                         <th class="offer_header">Subm. Date</th>
-                                        <th class="offer_header">Active</th>
                                         <th class="offer_header">Price</th>
                                         <th class="offer_header">Shop</th>
+                                        <th class="offer_header">Product</th>
                                     </tr>
                                 </thead>
                                 <tbody id="offer_history_body">

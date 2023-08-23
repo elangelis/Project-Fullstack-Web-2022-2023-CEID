@@ -221,42 +221,21 @@ function SelectTab(tabName){
     }
   }
 
+  let created=false;
+  const myInterval = setInterval(dosomething, 1000);
+
+  function dosomething() {
+    CreateLikesHistoryTable();
+    CreateOffersHistoryTable();
+    GetUserScore();
+    clearInterval(myInterval);
+  }
 
 
-  document.addEventListener("DOMContentLoaded", (event) => {
-    console.log("DOM fully loaded and parsed");
-    // CreateLikesHistoryTable();
-    // CreateOffersHistoryTable();
-    // GetUserScore();
-  });
-
-window.addEventListener('load',function(e){
-  
-  console.log("window fully loaded and parsed");
-  CreateLikesHistoryTable();
-  CreateOffersHistoryTable();
-  GetUserScore();
-  // $.ajax({
-  //   url: 'MainFunctionality/GET_UserID.php',
-  //   type: 'post',
-  //   success: function(data) {
-  //     if(data=='error'){
-  //       alert ('An error has occured please try Logging in again.');
-  //     }else if(data!=undefined){
-  //       let userid=JSON.parse(data);
-  //       // CreateLikesHistoryTable(userid);
-  //       // CreateOffersHistoryTable(userid);
-  //       // GetUserScore(userid);
-  //     }
-  //   },
-  //   error:function(e){
-  //     alert ('An error has occured please try Logging in again.');
-  //   }});
-})
 
 function CreateLikesHistoryTable(){
   var LikesHistoryTable_User={};
-  let table =document.getElementById('likes_history_table');
+  let table =document.getElementById('likes_history_body');
   let tablebody='';
   let tablerow='';
 
@@ -276,21 +255,24 @@ function CreateLikesHistoryTable(){
           let offerno='';
           let date='';
           let publisher='';
+          let shopname='';
           
-          if(row.no!=undefined){
-            no=row.no;
-          }
+          no=i;
+          
           if(row.action!=undefined){
             action=row.action;
           }
-          if(row.offerno!=undefined){
-            offerno=row.offerno;
+          if(row.offer_id!=undefined){
+            offerno=row.offer_id;
           }
           if(row.date!=undefined){
             date=row.date;
           }
-          if(row.publisher!=undefined){
-            publisher=row.publisher;
+          if(row.offer_user!=undefined){
+            publisher=row.offer_user;
+          }
+          if(row.shop_name!=undefined){
+            shopname=row.shop_name;
           }
           tablerow= '<tr id="likes_row'+i+'" class="likes_row">'+
                       '<td class="likes_cell_rank">'+no+'</td>'+
@@ -298,6 +280,7 @@ function CreateLikesHistoryTable(){
                       '<td class="likes_cell">'+offerno+'</td>'+
                       '<td class="likes_cell">'+date+'</td>'+
                       '<td class="likes_cell">'+publisher+'</td>'+
+                      '<td class="likes_cell">'+shopname+'</td>'+
                     '</tr>';
           tablebody+=tablerow;
           i++;
@@ -315,7 +298,7 @@ function CreateLikesHistoryTable(){
 function CreateOffersHistoryTable(){
   
   var OffersHistoryTable_User={};
-  let table =document.getElementById('offer_history_table');
+  let table =document.getElementById('offer_history_body');
   let tablebody='';
   let tablerow='';
 
@@ -354,16 +337,15 @@ function CreateOffersHistoryTable(){
           }
           
           if(row.product_name!=undefined){
-            shop=row.product_name;
+            product=row.product_name;
           }
           tablerow= '<tr id="offer_row'+i+'" class="offer_row">'+
                       '<td class="offer_cell_rank">'+no+'</td>'+
                       '<td class="offer_cell">'+offerid+'</td>'+
                       '<td class="offer_cell">'+sumbdate+'</td>'+
-                      '<td class="offer_cell">'+sumbdate+'</td>'+
                       '<td class="offer_cell">'+price+'</td>'+
-                      '<td class="offer_cell">'+product+'</td>'+
                       '<td class="offer_cell">'+shop+'</td>'+
+                      '<td class="offer_cell_product">'+product+'</td>'+
                     '</tr>';
           tablebody+=tablerow;
           i++;
