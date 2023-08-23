@@ -19,24 +19,24 @@ BEGIN
                     IF(@product_count=1)THEN
                          SELECT id INTO @product_id from object_product WHERE name=in_product_name;
                          
-                         SELECT COUNT(*) INTO @COUNT FROM Archive_Product_MesiTimi WHERE product_id=@product_id AND date=in_date;
+                         SELECT COUNT(*) INTO @COUNT FROM archive_product_mesitimi WHERE product_id=@product_id AND date=in_date;
 
                          IF (@COUNT IS NULL OR @COUNT=0)THEN
-                              INSERT INTO  Archive_Product_MesiTimi (product_id,mesi_timi,date) VALUES (@product_id,in_price,in_date);
+                              INSERT INTO  archive_product_mesitimi (product_id,mesi_timi,date) VALUES (@product_id,in_price,in_date);
                          ELSEIF (@COUNT=1)THEN
-                              SELECT mesi_timi INTO @oldmesi_timi FROM Archive_Product_MesiTimi WHERE product_id=@product_id AND date=in_date;
+                              SELECT mesi_timi INTO @oldmesi_timi FROM archive_product_mesitimi WHERE product_id=@product_id AND date=in_date;
                               IF(@oldmesi_timi!=in_price)THEN
-                                   UPDATE Archive_Product_MesiTimi SET mesi_timi=in_price WHERE product_id=@product_id AND date=in_date;
+                                   UPDATE archive_product_mesitimi SET mesi_timi=in_price WHERE product_id=@product_id AND date=in_date;
                               END IF;
                          END IF;
 
                     ELSEIF(@product_count IS NULL OR @product_count=0)THEN
                          INSERT INTO object_product(name) VALUES (in_product_name);
                          SELECT id INTO @product_id from object_product WHERE name=in_product_name;
-                         SELECT COUNT(*) INTO @COUNT FROM Archive_Product_MesiTimi WHERE product_id=@product_id AND date=in_date;
+                         SELECT COUNT(*) INTO @COUNT FROM archive_product_mesitimi WHERE product_id=@product_id AND date=in_date;
 
                          IF (@COUNT IS NULL OR @COUNT=0)THEN
-                              INSERT INTO  Archive_Product_MesiTimi (product_id,mesi_timi,date) VALUES (@product_id,in_price,in_date);
+                              INSERT INTO  archive_product_mesitimi (product_id,mesi_timi,date) VALUES (@product_id,in_price,in_date);
                          END IF;
                     END IF;
                     

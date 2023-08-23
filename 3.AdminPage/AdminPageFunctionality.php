@@ -122,7 +122,7 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
 
                         }
                         catch(Exception $e){
-                            $error=$error+$e;
+                            $error=$error.$e;
                             $category_success=false;
                         }
                     }
@@ -159,7 +159,7 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
 
                         }
                         catch(Exception $e){
-                            $error=$error+$e;
+                            $error = $error.$e;
                             $subcategory_success=false;
                         }
                     }
@@ -202,7 +202,7 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
 
                         }
                         catch(Exception $e){
-                            $error=$error+$e;
+                            $error=$error.$e;
                             $product_success=false;
                         }
                     }
@@ -262,6 +262,10 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
 
             if(isset($ARRAY_PRODPRICES)){
 
+
+                // echo json_encode($ARRAY_PRODPRICES);
+                // return;
+
                 $product_price_success=true;
                 foreach ($ARRAY_PRODPRICES as $product_priceforinsert=>$row) {
                     unset($prod_id);
@@ -270,10 +274,10 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
                     unset($date);
                     foreach ($row as $attribute => $value) {
                         
-                        if($attribute=='prod_id'){
+                        if($attribute=='product_id'){
                             $prod_id=$value;
                         }
-                        elseif($attribute=='prod_name')
+                        elseif($attribute=='product_name')
                         {
                             $prod_name=$value;
                         }
@@ -286,6 +290,8 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
                             $date=$value;
                         }
                     }
+                    // echo json_encode($row);
+                    // return;
                     if(isset($prod_id)&& isset($prod_name)&&isset($price)&&isset($date)){
                         try{
                             $insert3 = 'CALL ADMIN_InsertProductPrices(:prod_id,:prod_name,:price,:date);';
@@ -294,7 +300,7 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
 
                         }
                         catch(Exception $e){
-                            $error=$error+$e;
+                            $error=$error.$e;
                             $product_price_success=false;
                         }
                     }
