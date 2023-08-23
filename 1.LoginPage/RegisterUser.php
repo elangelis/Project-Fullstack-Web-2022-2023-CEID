@@ -99,7 +99,7 @@
                                     $statement->bindParam(':reg_email',$reg_email,PDO::PARAM_STR_CHAR);
                                     $statement->execute();
         
-                                    $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email';
+                                    $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email LIMIT 1';
                                     $get= $pdo->prepare($Get_user_id);
                                     $get->execute(array(':in_username'=>$reg_user,':in_email'=>$reg_email));
                                     

@@ -47,7 +47,7 @@
                     if( $user_exists==1 ){
                         try{
                             
-                            $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email';
+                            $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email LIMIT 1';
                             $trygetuserid= $pdo->prepare($Get_user_id);
                             $trygetuserid->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
                             
