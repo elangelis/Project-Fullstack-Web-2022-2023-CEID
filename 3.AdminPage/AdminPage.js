@@ -293,7 +293,7 @@ function InsertPOISintoDatabase(datain){
 
 function GetLeaderBoardData(){
   $.ajax({
-    url: './ApacheRESTServices/GET_Database_AllUserLeaderboard.php',
+    url: '../ApacheRESTServices/GET_Database_AllUserLeaderboard.php',
     type: 'post',
     success: function(responsedata) {
       UserLeaderboardData.length=0; 
