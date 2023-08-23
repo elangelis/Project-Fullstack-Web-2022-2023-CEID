@@ -5,14 +5,12 @@ DROP TABLE IF EXISTS object_user;
 
 CREATE TABLE object_user
 (
-
+    
     id INTEGER NULL AUTO_INCREMENT,
     username VARCHAR (255) NOT NULL DEFAULT '',
     password VARCHAR (255) NOT NULL DEFAULT '',
     email VARCHAR (255) NOT NULL DEFAULT '',
-    
-    last_session_id VARCHAR (255) NULL DEFAULT '',
-
+   
     name VARCHAR (255) NULL DEFAULT '',
     first_name VARCHAR (255) NULL  DEFAULT '',
     last_name VARCHAR (255) NULL DEFAULT '',

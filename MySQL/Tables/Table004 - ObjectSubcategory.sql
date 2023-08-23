@@ -21,6 +21,6 @@ CREATE TABLE IF NOT EXISTS object_subcategory
 
     CONSTRAINT object_subcategory_category_id
     FOREIGN KEY (category_id,category_name,ekat_cat_id) REFERENCES object_category(id,name,ekat_id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE CASCADE ON DELETE NO ACTION
 
 );

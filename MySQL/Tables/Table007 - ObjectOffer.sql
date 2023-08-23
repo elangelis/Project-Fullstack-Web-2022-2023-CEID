@@ -260,7 +260,7 @@ CREATE TABLE object_offer
     ON object_offer FOR EACH ROW  
     BEGIN
 
-    UPDATE object_shop SET active_offer=TRUE WHERE id=new.shop_id;
+        UPDATE object_shop SET active_offer=TRUE WHERE id=new.shop_id;
 
     END $$
     DELIMITER ;
