@@ -222,7 +222,16 @@ function SelectTab(tabName){
   }
 
 
+
+  document.addEventListener("DOMContentLoaded", (event) => {
+    // console.log("DOM fully loaded and parsed");
+    CreateLikesHistoryTable();
+    CreateOffersHistoryTable();
+    GetUserScore();
+  });
+
 window.addEventListener('load',function(e){
+  
   $.ajax({
     url: 'MainFunctionality/GET_UserID.php',
     type: 'post',
@@ -231,9 +240,9 @@ window.addEventListener('load',function(e){
         alert ('An error has occured please try Logging in again.');
       }else if(data!=undefined){
         let userid=JSON.parse(data);
-        CreateLikesHistoryTable(userid);
-        CreateOffersHistoryTable(userid);
-        GetUserScore(userid);
+        // CreateLikesHistoryTable(userid);
+        // CreateOffersHistoryTable(userid);
+        // GetUserScore(userid);
       }
     },
     error:function(e){
@@ -241,7 +250,7 @@ window.addEventListener('load',function(e){
     }});
 })
 
-function CreateLikesHistoryTable(userid){
+function CreateLikesHistoryTable(){
   var LikesHistoryTable={};
   let table =document.getElementById('likes_history_table');
   let tablebody='';
@@ -300,7 +309,7 @@ function CreateLikesHistoryTable(userid){
   });
 }
 
-function CreateOffersHistoryTable(userid){
+function CreateOffersHistoryTable(){
   
   var OffersHistoryTable={};
   let table =document.getElementById('offer_history_table');
@@ -368,7 +377,7 @@ function CreateOffersHistoryTable(userid){
   });
 }
 
-function GetUserScore(userid){
+function GetUserScore(){
     let total_tok = document.getElementById('total_tokens');
     let cur_tok = document.getElementById('current_tokens');
 

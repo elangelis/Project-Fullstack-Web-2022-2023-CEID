@@ -2,12 +2,12 @@
 
     require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";
 
+    $userid =  json_decode($_POST['userid']);
 
-    
-    if(isset($_SESSION['User ID'])){
-        echo json_encode($_SESSION['User ID']);
-    }else{
-        echo json_encode('error');
+    unset($_SESSION['User ID']);
+
+    if(isset($userid)){
+          $_SESSION['User ID']=$userid;
     }
 
 ?>

@@ -52,7 +52,7 @@
                             $trygetuserid->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
                             
                             $_SESSION['User ID']=$trygetuserid->fetchColumn();
-        
+
                             $_SESSION['Logged User']=$login_username;
                             $_SESSION['Logged Password']=$login_password;
                             $_SESSION['Logged Confirm Password']=$login_password;
