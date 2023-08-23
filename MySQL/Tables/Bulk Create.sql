@@ -514,9 +514,9 @@ CREATE TABLE object_offer
         SELECT COUNT(*) INTO @count_offers FROM object_offer WHERE shop_id=old.shop_id;
         
         IF(@count_offers IS NULL OR @count_offers=0)THEN
-            UPDATE object_shop SET shop.active_offer=FALSE WHERE id=old.shop_id;
+            UPDATE object_shop SET active_offer=FALSE WHERE id=old.shop_id;
         ELSEIF(@count_offers IS NOT NULL AND @count_offers>0)THEN
-            UPDATE object_shop SET shop.active_offer=TRUE WHERE id=old.shop_id;
+            UPDATE object_shop SET active_offer=TRUE WHERE id=old.shop_id;
         END IF;
 
     END $$
