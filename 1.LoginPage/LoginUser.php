@@ -50,8 +50,7 @@
                             $trygetuserid= $pdo->prepare($Get_user_id);
                             $trygetuserid->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
                             
-                            session_unset();
-                            session_start();
+                            session_reset();
 
                             $_SESSION['User ID']=$trygetuserid->fetchColumn();
 

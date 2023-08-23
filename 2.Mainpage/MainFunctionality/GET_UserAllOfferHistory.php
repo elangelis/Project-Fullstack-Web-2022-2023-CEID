@@ -20,6 +20,8 @@ try{
        $count_shop_exists->bindParam(':in_userid',$userid);
        $count_shop_exists->execute();
 
+       $result = $count_shop_exists->fetchAll(\PDO::FETCH_ASSOC);
+       
        echo json_encode($result); //returning the array     
        return;
      }

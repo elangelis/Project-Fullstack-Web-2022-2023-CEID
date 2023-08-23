@@ -224,49 +224,52 @@ function SelectTab(tabName){
 
 
   document.addEventListener("DOMContentLoaded", (event) => {
-    // console.log("DOM fully loaded and parsed");
-    CreateLikesHistoryTable();
-    CreateOffersHistoryTable();
-    GetUserScore();
+    console.log("DOM fully loaded and parsed");
+    // CreateLikesHistoryTable();
+    // CreateOffersHistoryTable();
+    // GetUserScore();
   });
 
 window.addEventListener('load',function(e){
   
-  $.ajax({
-    url: 'MainFunctionality/GET_UserID.php',
-    type: 'post',
-    success: function(data) {
-      if(data=='error'){
-        alert ('An error has occured please try Logging in again.');
-      }else if(data!=undefined){
-        let userid=JSON.parse(data);
-        // CreateLikesHistoryTable(userid);
-        // CreateOffersHistoryTable(userid);
-        // GetUserScore(userid);
-      }
-    },
-    error:function(e){
-      alert ('An error has occured please try Logging in again.');
-    }});
+  console.log("window fully loaded and parsed");
+  CreateLikesHistoryTable();
+  CreateOffersHistoryTable();
+  GetUserScore();
+  // $.ajax({
+  //   url: 'MainFunctionality/GET_UserID.php',
+  //   type: 'post',
+  //   success: function(data) {
+  //     if(data=='error'){
+  //       alert ('An error has occured please try Logging in again.');
+  //     }else if(data!=undefined){
+  //       let userid=JSON.parse(data);
+  //       // CreateLikesHistoryTable(userid);
+  //       // CreateOffersHistoryTable(userid);
+  //       // GetUserScore(userid);
+  //     }
+  //   },
+  //   error:function(e){
+  //     alert ('An error has occured please try Logging in again.');
+  //   }});
 })
 
 function CreateLikesHistoryTable(){
-  var LikesHistoryTable={};
+  var LikesHistoryTable_User={};
   let table =document.getElementById('likes_history_table');
   let tablebody='';
   let tablerow='';
 
   $.ajax({
-    url: './MainFunctionality/Get_UserAllLikesHistory.php',
+    url: 'MainFunctionality/Get_UserAllLikesHistory.php',
     type: 'post',
-    data: userid,
     success: function(data) {
       console.log(data);
-      LikesHistoryTable=JSON.parse(data);
-      console.log(LikesHistoryTable);
-      if(LikesHistoryTable.length>0){
+      LikesHistoryTable_User=JSON.parse(data);
+      console.log(LikesHistoryTable_User);
+      if(LikesHistoryTable_User.length>0){
         i=1;
-        LikesHistoryTable.forEach(row => {
+        LikesHistoryTable_User.forEach(row => {
           
           let no='';
           let action='';
@@ -299,7 +302,7 @@ function CreateLikesHistoryTable(){
           tablebody+=tablerow;
           i++;
         });    
-        table.innerHTML(tablebody);
+        table.innerHTML=tablebody;
       }
     },
     error:function(e){
@@ -311,64 +314,61 @@ function CreateLikesHistoryTable(){
 
 function CreateOffersHistoryTable(){
   
-  var OffersHistoryTable={};
+  var OffersHistoryTable_User={};
   let table =document.getElementById('offer_history_table');
   let tablebody='';
   let tablerow='';
 
   $.ajax({
-    url: './MainFunctionality/Get_UserAllOfferHistory.php',
+    url: 'MainFunctionality/Get_UserAllOfferHistory.php',
     type: 'post',
-    data: userid,
     success: function(data) {
       console.log(data);
-      OffersHistoryTable=JSON.parse(data);
-      console.log(OffersHistoryTable);
-      if(OffersHistoryTable.length>0){
+      OffersHistoryTable_User=JSON.parse(data);
+      console.log(OffersHistoryTable_User);
+      if(OffersHistoryTable_User.length>0){
         i=1;
-        OffersHistoryTable.forEach(row => {
+        OffersHistoryTable_User.forEach(row => {
           
           let no='';
           let offerid='';
           let sumbdate='';
-          let active='';
           let price='';
           let shop='';
+          let product='';
           
-          if(row.no!=undefined){
-            no=row.no;
+          no=i;
+          
+          if(row.offer_id!=undefined){
+            offerid=row.offer_id;
           }
-          if(row.offerid!=undefined){
-            offerid=row.offerid;
+          if(row.creation_date!=undefined){
+            sumbdate=row.creation_date;
           }
-          if(row.sumbdate!=undefined){
-            sumbdate=row.sumbdate;
+          
+          if(row.offer_price!=undefined){
+            price=row.offer_price;
           }
-          if(row.active!=undefined){
-            if(row.active==1){
-              active='YES';
-            }else{
-              active='NO';
-            }
+          if(row.shop_name!=undefined){
+            shop=row.shop_name;
           }
-          if(row.price!=undefined){
-            price=row.price;
-          }
-          if(row.shop!=undefined){
-            shop=row.shop;
+          
+          if(row.product_name!=undefined){
+            shop=row.product_name;
           }
           tablerow= '<tr id="offer_row'+i+'" class="offer_row">'+
                       '<td class="offer_cell_rank">'+no+'</td>'+
                       '<td class="offer_cell">'+offerid+'</td>'+
                       '<td class="offer_cell">'+sumbdate+'</td>'+
-                      '<td class="offer_cell">'+active+'</td>'+
+                      '<td class="offer_cell">'+sumbdate+'</td>'+
                       '<td class="offer_cell">'+price+'</td>'+
+                      '<td class="offer_cell">'+product+'</td>'+
                       '<td class="offer_cell">'+shop+'</td>'+
                     '</tr>';
           tablebody+=tablerow;
           i++;
         });    
-        table.innerHTML(tablebody);
+        table.innerHTML=tablebody;
       }
     },
     error:function(e){
@@ -385,18 +385,17 @@ function GetUserScore(){
     let total_sc = document.getElementById('current_score');
 
     $.ajax({
-      url: './MainFunctionality/GET_UserAllScores.php',
+      url: 'MainFunctionality/GET_UserAllScores.php',
       type: 'post',
-      data: userid,
       success: function(data) {
         var out;
         console.log(data);
         out = JSON.parse(data);
         console.log(out);
-        total_tok.value   = out.total_tokens;
-        cur_tok.value     = out.current_tokens;
-        cur_sc.value      = out.total_score;
-        total_sc.value    = out.current_score;
+        total_tok.innerText   = out.tokens_total;
+        cur_tok.innerText     = out.tokens_month;
+        cur_sc.innerText      = out.score_month;
+        total_sc.innerText    = out.score_total;
       },
       error: function(e){
         console.log('Error has occured contact your system Administrator');

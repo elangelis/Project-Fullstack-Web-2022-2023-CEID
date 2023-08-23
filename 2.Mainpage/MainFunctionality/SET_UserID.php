@@ -4,6 +4,8 @@
 
     $userid =  json_decode($_POST['userid']);
 
+
+
     unset($_SESSION['User ID']);
 
     if(isset($userid)){

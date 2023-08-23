@@ -12,6 +12,7 @@ BEGIN
             o.product_id            AS product_id,
             p.name                AS product_name,
             o.has_stock             AS stock,
+            o.active_offer          AS active,
             o.creation_date         AS creation_date,
             o.expiration_date       AS expiration_date,
             o.creation_user_id      AS user_id,

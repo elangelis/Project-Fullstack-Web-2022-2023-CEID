@@ -103,8 +103,7 @@
                                     $get= $pdo->prepare($Get_user_id);
                                     $get->execute(array(':in_username'=>$reg_user,':in_email'=>$reg_email));
                                     
-                                    session_unset();
-                                    session_start();
+                                    session_reset();
 
                                     $_SESSION['User ID']=$get->fetchColumn();
                                     $_SESSION['Logged User']=$reg_user;

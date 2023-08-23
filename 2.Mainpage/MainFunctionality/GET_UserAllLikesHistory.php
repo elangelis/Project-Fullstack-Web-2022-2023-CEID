@@ -14,13 +14,15 @@
           {
             
 
-            $sql_check_shopexists    = 'CALL Database_AllUserLikes(:in_userid)';
-            $count_shop_exists       = $pdo->prepare($sql_check_shopexists);
-            $count_shop_exists->bindParam(':in_userid',$userid);
-            $count_shop_exists->execute();
+               $sql_check_shopexists    = 'CALL Database_AllUserLikes(:in_userid)';
+               $count_shop_exists       = $pdo->prepare($sql_check_shopexists);
+               $count_shop_exists->bindParam(':in_userid',$userid);
+               $count_shop_exists->execute();
 
-            echo json_encode($result); //returning the array     
-            return;
+               $result = $count_shop_exists->fetchAll(\PDO::FETCH_ASSOC);
+               
+               echo json_encode($result); //returning the array     
+               return;
           }
           else
           {
