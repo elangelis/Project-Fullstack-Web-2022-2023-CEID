@@ -14,7 +14,6 @@
 <body>
     <header class="header_class" id="header">
         <?php
-        
             require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginUser.php";
             require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/RegisterUser.php";
         ?>
