@@ -5,7 +5,6 @@
 
 
 
-
     $sucess_login=false;
     $login_username = "";
     $login_password = "";
@@ -51,6 +50,9 @@
                             $trygetuserid= $pdo->prepare($Get_user_id);
                             $trygetuserid->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
                             
+                            session_unset();
+                            session_start();
+
                             $_SESSION['User ID']=$trygetuserid->fetchColumn();
 
                             $_SESSION['Logged User']=$login_username;
@@ -77,6 +79,7 @@
                             
                             $admin_exists= $check_login->fetchColumn();
                             if( $admin_exists==1 ){
+                                
                                 
                                 echo json_encode('success_admin');
                                 

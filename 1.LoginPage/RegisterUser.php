@@ -103,13 +103,16 @@
                                     $get= $pdo->prepare($Get_user_id);
                                     $get->execute(array(':in_username'=>$reg_user,':in_email'=>$reg_email));
                                     
+                                    session_unset();
+                                    session_start();
+
                                     $_SESSION['User ID']=$get->fetchColumn();
                                     $_SESSION['Logged User']=$reg_user;
                                     $_SESSION['Logged Password']=$reg_pass;
                                     $_SESSION['Logged Confirm Password']=$reg_confirm_password;
                                     $_SESSION['Logged Email']=$reg_email;
     
-                                    session_regenerate_id();                            
+                                                              
                                     
                                     echo json_encode('success');
                                     return;   

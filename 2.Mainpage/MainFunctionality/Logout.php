@@ -8,8 +8,8 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
     unset($_SESSION['Logged Confirm Password']);
     unset($_SESSION['Logged Email']);
     
+    session_unset();
 
-    session_reset();
     echo json_encode('logout');
     return;
     

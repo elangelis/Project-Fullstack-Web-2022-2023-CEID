@@ -5,6 +5,7 @@
 	require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_config.php";
 
 	session_start();
+
 	global $pdo;
 	$dsn = "mysql:host=$db_host;dbname=$db_name;charset=UTF8";
 	try {
