@@ -13,13 +13,19 @@
 
 <body>
     <header class="header_class" id="header">
+        
         <?php
             require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginUser.php";
             require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/RegisterUser.php";
+            echo session_id();
         ?>
         <div id="User_loggedin">you are logged in as:
             <?php
-                require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginUser.php";
+                // require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginUser.php";
+                
+                require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";    
+                
+                // require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginUser.php";
                 echo $_SESSION['Logged User'];
             ?>
         </div>
@@ -333,9 +339,10 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
         <script type="text/javascript" src="../AdditionalFiles/JS_leaflet.js"></script>
+        <script type="text/javascript" src="GeolocationPosition/WatchPosition.js"></script>
+        
         <script type="text/javascript" src="MainMenuPage.js"></script>
 
-        <script type="text/javascript" src="GeolocationPosition/WatchPosition.js"></script>
 
         <script type="text/javascript" src="LeafletandMarkers/CreateMarkers.js"></script>
         <script type="text/javascript" src="LeafletandMarkers/CreatePopupMenu.js"></script>

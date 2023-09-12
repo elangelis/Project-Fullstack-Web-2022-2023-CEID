@@ -25,5 +25,9 @@ Usercircle = L.circle([51.508, -0.11], {
 Usermarker = L.marker([51.5, -0.09]).addTo(map);
 
 map.setView([0, 0], 12);
+var mapinitialised=true;
+var locationinitialised=false;
+// navigator.geolocation.watchPosition(success, errorCallback, options);
+
 
 

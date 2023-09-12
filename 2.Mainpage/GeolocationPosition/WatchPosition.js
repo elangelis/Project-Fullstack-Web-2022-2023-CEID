@@ -8,8 +8,6 @@
     var Usermarker,Usercircle;
     
 
-
-
    const options = {
     enableHighAccuracy: true, 
     // Get high accuracy reading, if available (default false)
@@ -26,10 +24,18 @@
             alert("Cannot Get Current Location");
         }
     }
-    
+    const myInterval2 = setInterval(initialisemap, 1000);
+    function initialisemap() {
+        if(mapinitialised){
+            if (!locationinitialised){
+                navigator.geolocation.watchPosition(success, errorCallback, options);
+                clearInterval(myInterval2);
+            }
+        }
+      }
     function success(position){
         i++;
-        if(i>=1000000000n){
+        // if(i>=1000000000n){
             i=0;
             lat = position.coords.latitude,
             lng = position.coords.longitude,
@@ -46,7 +52,7 @@
             map.fitBounds(Usercircle.getBounds());
             map.setView([lat,lng],14);
             update_Lat_Long(lat,lng);
-        }
+        // }
     }
 
     function successForce(position){
@@ -54,7 +60,7 @@
         lat = position.coords.latitude,
         lng = position.coords.longitude,
         accuracy = position.coords.accuracy; // Accuracy in metres
-        
+        // map.setView([lat,lng],14);
         update_Lat_Long(lat,lng);
     }
     

@@ -224,10 +224,12 @@ function SelectTab(tabName){
   let created=false;
   const myInterval = setInterval(dosomething, 1000);
 
+
   function dosomething() {
     CreateLikesHistoryTable();
     CreateOffersHistoryTable();
     GetUserScore();
+    // navigator.geolocation.watchPosition(success, errorCallback, options);
     clearInterval(myInterval);
   }
 
@@ -383,10 +385,10 @@ function GetUserScore(){
         {
         out = JSON.parse(data);
         console.log(out);
-        total_tok.innerText   = out.tokens_total;
-        cur_tok.innerText     = out.tokens_month;
-        cur_sc.innerText      = out.score_month;
-        total_sc.innerText    = out.score_total;
+        total_tok.innerText   = out[0].tokens_total;
+        cur_tok.innerText     = out[0].tokens_month;
+        cur_sc.innerText      = out[0].score_month;
+        total_sc.innerText    = out[0].score_total;
         }
       },
       error: function(e){

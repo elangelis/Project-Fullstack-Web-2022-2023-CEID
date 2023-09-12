@@ -10,6 +10,12 @@
   
   <body>  
     <div class="form">
+      <div>
+        <?php
+            require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";    
+            echo session_id(); 
+        ?>
+      </div>
       <h2>Web Project 2022-2023</h2>
       <div 
         class="form-toggle">

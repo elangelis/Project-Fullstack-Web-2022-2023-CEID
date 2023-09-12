@@ -638,6 +638,50 @@ END$$
 DELIMITER ; 
 
 
+DELIMITER ;
+DROP TRIGGER IF EXISTS OnAfterInsertUserActions_UpdateLikeDislikeOffer;
+
+DELIMITER $$   
+CREATE TRIGGER OnAfterInsertUserActions_UpdateLikeDislikeOffer AFTER INSERT  
+ON Archive_user_actions FOR EACH ROW  
+BEGIN
+    IF (new.type=1) THEN
+        SELECT likes INTO @oldlikes FROM object_offer where object_offer.id = new.offer_id;
+        SET @newlikes=@oldlikes+1;
+        UPDATE object_offer SET likes=@newlikes WHERE id = new.offer_id;
+
+    ELSEIF (new.type=2) THEN
+        SELECT dislikes INTO @olddislikes FROM object_offer where object_offer.id = new.offer_id;
+        SET @newdislikes=@olddislikes+1;
+        UPDATE object_offer SET dislikes=@newdislikes WHERE id = new.offer_id;
+    END IF;
+END$$ 
+
+DELIMITER ; 
+
+
+DELIMITER ;
+DROP TRIGGER IF EXISTS OnBeforeDeleteUserActions_UpdateLikeDislikeOffer;
+
+DELIMITER $$   
+CREATE TRIGGER OnBeforeDeleteUserActions_UpdateLikeDislikeOffer BEFORE DELETE  
+ON Archive_user_actions FOR EACH ROW  
+BEGIN
+    IF (old.type=1) THEN
+        SELECT likes INTO @oldlikes FROM object_offer where object_offer.id = old.offer_id;
+        SET @newlikes=@oldlikes-1;
+        UPDATE object_offer SET likes=@newlikes WHERE id = old.offer_id;
+
+    ELSEIF (old.type=2) THEN
+        SELECT dislikes INTO @olddislikes FROM object_offer where object_offer.id = old.offer_id;
+        SET @newdislikes=@olddislikes-1;
+        UPDATE object_offer SET dislikes=@newdislikes WHERE id = old.offer_id;
+    END IF;
+END$$ 
+
+DELIMITER ; 
+
+
 --  //---------------------------------------------------------------------------------------------------------------------------------------//
 --  //-----------------------------------------------------------Archive_user_score_history----------------------------------------------------------//
 --  //---------------------------------------------------------------------------------------------------------------------------------------//
@@ -664,14 +708,6 @@ CREATE TABLE IF NOT EXISTS Archive_user_score_history
 
      CONSTRAINT Archive_user_score_history_user_id
      FOREIGN KEY (user_id) REFERENCES object_user(id)
-     ON UPDATE NO ACTION ON DELETE NO ACTION,
-
-     CONSTRAINT Archive_user_score_history_offer_id
-     FOREIGN KEY (offer_id) REFERENCES object_offer(id)
-     ON UPDATE NO ACTION ON DELETE NO ACTION,
-
-     CONSTRAINT Archive_user_score_history_user_likes_id
-     FOREIGN KEY (user_likes_id) REFERENCES Archive_user_actions(id)
      ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );

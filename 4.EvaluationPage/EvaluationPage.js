@@ -54,6 +54,7 @@ function GetOffers(){
     //Fetch Data
     $.ajax({
         url: 'GET_OffersUserProductData.php',
+        // url: 'GET_Database_AllOfferDetails.php',
         type: 'post',
         success: function(data) {
             ArrayAllOffers.length=0;

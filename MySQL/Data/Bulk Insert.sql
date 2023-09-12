@@ -1,3 +1,5 @@
+insert into object_admin (username,password,email) 
+values("admin","admin","admin@admin");
 
 
 insert into object_user (username,password,email) 

@@ -3,8 +3,10 @@
     
     require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";
 
-
-
+    // echo json_encode(session_id());
+    // return;
+    // 7sbdetb5ko2hanm7vd33vmsouh
+    // 7sbdetb5ko2hanm7vd33vmsouh
     $sucess_login=false;
     $login_username = "";
     $login_password = "";
@@ -52,18 +54,20 @@
                                 // session_start();
                                 // session_regenerate_id(true);
                             }
-                            
 
                             $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email LIMIT 1';
                             $trygetuserid= $pdo->prepare($Get_user_id);
                             $trygetuserid->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
                             
                             $_SESSION['User ID']=$trygetuserid->fetchColumn();
+                            $_SERVER['User ID']= $_SESSION['User ID'];
 
                             $_SESSION['Logged User']=$login_username;
                             $_SESSION['Logged Password']=$login_password;
                             $_SESSION['Logged Confirm Password']=$login_password;
                             $_SESSION['Logged Email']=$login_email;
+                        
+
                             if (isset($_SESSION['User ID'])){
 
                                 echo json_encode('success');
