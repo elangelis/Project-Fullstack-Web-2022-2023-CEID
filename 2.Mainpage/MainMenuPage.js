@@ -244,48 +244,51 @@ function CreateLikesHistoryTable(){
     type: 'post',
     success: function(data) {
       console.log(data);
-      LikesHistoryTable_User=JSON.parse(data);
-      console.log(LikesHistoryTable_User);
-      if(LikesHistoryTable_User.length>0){
-        i=1;
-        LikesHistoryTable_User.forEach(row => {
-          
-          let no='';
-          let action='';
-          let offerno='';
-          let date='';
-          let publisher='';
-          let shopname='';
-          
-          no=i;
-          
-          if(row.action!=undefined){
-            action=row.action;
-          }
-          if(row.offer_id!=undefined){
-            offerno=row.offer_id;
-          }
-          if(row.date!=undefined){
-            date=row.date;
-          }
-          if(row.offer_user!=undefined){
-            publisher=row.offer_user;
-          }
-          if(row.shop_name!=undefined){
-            shopname=row.shop_name;
-          }
-          tablerow= '<tr id="likes_row'+i+'" class="likes_row">'+
-                      '<td class="likes_cell_rank">'+no+'</td>'+
-                      '<td class="likes_cell">'+action+'</td>'+
-                      '<td class="likes_cell">'+offerno+'</td>'+
-                      '<td class="likes_cell">'+date+'</td>'+
-                      '<td class="likes_cell">'+publisher+'</td>'+
-                      '<td class="likes_cell">'+shopname+'</td>'+
-                    '</tr>';
-          tablebody+=tablerow;
-          i++;
-        });    
-        table.innerHTML=tablebody;
+      if (JSON.parse(data)!='nouserid')
+      {
+        LikesHistoryTable_User=JSON.parse(data);
+        console.log(LikesHistoryTable_User);
+        if(LikesHistoryTable_User.length>0){
+          i=1;
+          LikesHistoryTable_User.forEach(row => {
+            
+            let no='';
+            let action='';
+            let offerno='';
+            let date='';
+            let publisher='';
+            let shopname='';
+            
+            no=i;
+            
+            if(row.action!=undefined){
+              action=row.action;
+            }
+            if(row.offer_id!=undefined){
+              offerno=row.offer_id;
+            }
+            if(row.date!=undefined){
+              date=row.date;
+            }
+            if(row.offer_user!=undefined){
+              publisher=row.offer_user;
+            }
+            if(row.shop_name!=undefined){
+              shopname=row.shop_name;
+            }
+            tablerow= '<tr id="likes_row'+i+'" class="likes_row">'+
+                        '<td class="likes_cell_rank">'+no+'</td>'+
+                        '<td class="likes_cell">'+action+'</td>'+
+                        '<td class="likes_cell">'+offerno+'</td>'+
+                        '<td class="likes_cell">'+date+'</td>'+
+                        '<td class="likes_cell">'+publisher+'</td>'+
+                        '<td class="likes_cell">'+shopname+'</td>'+
+                      '</tr>';
+            tablebody+=tablerow;
+            i++;
+          });    
+          table.innerHTML=tablebody;
+        }
       }
     },
     error:function(e){
@@ -306,51 +309,55 @@ function CreateOffersHistoryTable(){
     url: 'MainFunctionality/Get_UserAllOfferHistory.php',
     type: 'post',
     success: function(data) {
+      
       console.log(data);
-      OffersHistoryTable_User=JSON.parse(data);
-      console.log(OffersHistoryTable_User);
-      if(OffersHistoryTable_User.length>0){
-        i=1;
-        OffersHistoryTable_User.forEach(row => {
-          
-          let no='';
-          let offerid='';
-          let sumbdate='';
-          let price='';
-          let shop='';
-          let product='';
-          
-          no=i;
-          
-          if(row.offer_id!=undefined){
-            offerid=row.offer_id;
+      if (JSON.parse(data)!='nouserid')
+        {
+          OffersHistoryTable_User=JSON.parse(data);
+          console.log(OffersHistoryTable_User);
+          if(OffersHistoryTable_User.length>0){
+            i=1;
+            OffersHistoryTable_User.forEach(row => {
+              
+              let no='';
+              let offerid='';
+              let sumbdate='';
+              let price='';
+              let shop='';
+              let product='';
+              
+              no=i;
+              
+              if(row.offer_id!=undefined){
+                offerid=row.offer_id;
+              }
+              if(row.creation_date!=undefined){
+                sumbdate=row.creation_date;
+              }
+              
+              if(row.offer_price!=undefined){
+                price=row.offer_price;
+              }
+              if(row.shop_name!=undefined){
+                shop=row.shop_name;
+              }
+              
+              if(row.product_name!=undefined){
+                product=row.product_name;
+              }
+              tablerow= '<tr id="offer_row'+i+'" class="offer_row">'+
+                          '<td class="offer_cell_rank">'+no+'</td>'+
+                          '<td class="offer_cell">'+offerid+'</td>'+
+                          '<td class="offer_cell">'+sumbdate+'</td>'+
+                          '<td class="offer_cell">'+price+'</td>'+
+                          '<td class="offer_cell">'+shop+'</td>'+
+                          '<td class="offer_cell_product">'+product+'</td>'+
+                        '</tr>';
+              tablebody+=tablerow;
+              i++;
+            });    
+            table.innerHTML=tablebody;
           }
-          if(row.creation_date!=undefined){
-            sumbdate=row.creation_date;
-          }
-          
-          if(row.offer_price!=undefined){
-            price=row.offer_price;
-          }
-          if(row.shop_name!=undefined){
-            shop=row.shop_name;
-          }
-          
-          if(row.product_name!=undefined){
-            product=row.product_name;
-          }
-          tablerow= '<tr id="offer_row'+i+'" class="offer_row">'+
-                      '<td class="offer_cell_rank">'+no+'</td>'+
-                      '<td class="offer_cell">'+offerid+'</td>'+
-                      '<td class="offer_cell">'+sumbdate+'</td>'+
-                      '<td class="offer_cell">'+price+'</td>'+
-                      '<td class="offer_cell">'+shop+'</td>'+
-                      '<td class="offer_cell_product">'+product+'</td>'+
-                    '</tr>';
-          tablebody+=tablerow;
-          i++;
-        });    
-        table.innerHTML=tablebody;
       }
     },
     error:function(e){
@@ -372,12 +379,15 @@ function GetUserScore(){
       success: function(data) {
         var out;
         console.log(data);
+        if (JSON.parse(data)!='nouserid')
+        {
         out = JSON.parse(data);
         console.log(out);
         total_tok.innerText   = out.tokens_total;
         cur_tok.innerText     = out.tokens_month;
         cur_sc.innerText      = out.score_month;
         total_sc.innerText    = out.score_total;
+        }
       },
       error: function(e){
         console.log('Error has occured contact your system Administrator');

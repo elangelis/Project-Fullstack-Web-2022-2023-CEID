@@ -23,7 +23,7 @@ BEGIN
           INNER JOIN object_user             as uc     ON uc.id       =    off.creation_user_id
           WHERE u.id=1;
      END IF;
-
+     
 END$$
 DELIMITER ;
 

@@ -154,7 +154,7 @@ CREATE TABLE IF NOT EXISTS object_subcategory
 
     CONSTRAINT object_subcategory_category_id
     FOREIGN KEY (category_id) REFERENCES object_category(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 
@@ -195,11 +195,11 @@ CREATE TABLE IF NOT EXISTS object_product
 
     CONSTRAINT object_product_category_id
     FOREIGN KEY (category_id) REFERENCES object_category(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
 
     CONSTRAINT object_product_subcategory_id
     FOREIGN KEY (subcategory_id) REFERENCES object_subcategory(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
     
 );
@@ -266,15 +266,15 @@ CREATE TABLE object_offer
 
     CONSTRAINT object_offer_shop_id
     FOREIGN KEY (shop_id) REFERENCES object_shop(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
 
     CONSTRAINT object_offer_product_id
     FOREIGN KEY (product_id) REFERENCES object_product(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
 
     CONSTRAINT object_offer_creation_user_id
     FOREIGN KEY (creation_user_id) REFERENCES object_user(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 
@@ -547,7 +547,7 @@ CREATE TABLE IF NOT EXISTS Archive_Product_MesiTimi
 
     CONSTRAINT Archive_Product_MesiTimi_product_id
     FOREIGN KEY (product_id) REFERENCES object_product(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 
@@ -575,11 +575,11 @@ CREATE TABLE IF NOT EXISTS Archive_user_actions
 
     CONSTRAINT Archive_user_actions_user_id
     FOREIGN KEY (user_id) REFERENCES object_user(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
 
     CONSTRAINT Archive_user_actions_offer_id
     FOREIGN KEY (offer_id) REFERENCES object_offer(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 
@@ -664,15 +664,15 @@ CREATE TABLE IF NOT EXISTS Archive_user_score_history
 
      CONSTRAINT Archive_user_score_history_user_id
      FOREIGN KEY (user_id) REFERENCES object_user(id)
-     ON UPDATE CASCADE ON DELETE CASCADE,
+     ON UPDATE NO ACTION ON DELETE NO ACTION,
 
      CONSTRAINT Archive_user_score_history_offer_id
      FOREIGN KEY (offer_id) REFERENCES object_offer(id)
-     ON UPDATE CASCADE ON DELETE CASCADE,
+     ON UPDATE NO ACTION ON DELETE NO ACTION,
 
      CONSTRAINT Archive_user_score_history_user_likes_id
      FOREIGN KEY (user_likes_id) REFERENCES Archive_user_actions(id)
-     ON UPDATE CASCADE ON DELETE CASCADE
+     ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 
@@ -701,11 +701,11 @@ CREATE TABLE IF NOT EXISTS Archive_Product_History
 
     CONSTRAINT Archive_Product_History_product_id
     FOREIGN KEY (product_id) REFERENCES object_product(id)
-    ON UPDATE CASCADE ON DELETE CASCADE,
+    ON UPDATE NO ACTION ON DELETE NO ACTION,
 
     CONSTRAINT Archive_Product_History_shop_id
     FOREIGN KEY (shop_id) REFERENCES object_shop(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 
@@ -820,7 +820,7 @@ CREATE TABLE IF NOT EXISTS Archive_score_MONTH
 
     CONSTRAINT Archive_score_MONTH_user_id
     FOREIGN KEY (user_id) REFERENCES object_user(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 
 );
@@ -904,7 +904,7 @@ CREATE TABLE IF NOT EXISTS Archive_score_TOTAL
 
     CONSTRAINT Archive_score_TOTAL_user_id
     FOREIGN KEY (user_id) REFERENCES object_user(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 
@@ -940,7 +940,7 @@ CREATE TABLE IF NOT EXISTS Archive_token_MONTH
 
     CONSTRAINT Archive_token_MONTH_user_id
     FOREIGN KEY (user_id) REFERENCES object_user(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
     
 );
 
@@ -1018,7 +1018,7 @@ CREATE TABLE IF NOT EXISTS Archive_token_TOTAL
 
     CONSTRAINT Archive_token_TOTAL_user_id
     FOREIGN KEY (user_id) REFERENCES object_user(id)
-    ON UPDATE CASCADE ON DELETE CASCADE
+    ON UPDATE NO ACTION ON DELETE NO ACTION
 
 );
 

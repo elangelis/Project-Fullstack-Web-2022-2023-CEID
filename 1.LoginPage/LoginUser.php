@@ -45,23 +45,35 @@
                     
                     if( $user_exists==1 ){
                         try{
+
+                            if (isset($_SESSION['User ID']))
+                            {
+                                session_destroy();
+                                session_start();
+                                session_regenerate_id(true);
+                            }
                             
+
                             $Get_user_id='SELECT id from object_user WHERE username=:in_username AND email=:in_email LIMIT 1';
                             $trygetuserid= $pdo->prepare($Get_user_id);
                             $trygetuserid->execute(array(':in_username'=>$login_username,':in_email'=>$login_email));
                             
-                            session_reset();
-
                             $_SESSION['User ID']=$trygetuserid->fetchColumn();
 
                             $_SESSION['Logged User']=$login_username;
                             $_SESSION['Logged Password']=$login_password;
                             $_SESSION['Logged Confirm Password']=$login_password;
                             $_SESSION['Logged Email']=$login_email;
+                            if (isset($_SESSION['User ID'])){
+
+                                echo json_encode('success');
+                                return;
                             
-                            echo json_encode('success');
+                            }else{
+                                echo json_encode('An Error has occured while accesing the Database. Please contact a system admin.'); 
                             
-                            return;
+                                return;
+                            }
                         }
                         catch(ErrorException $e){
                             echo json_encode('An Error has occured while accesing the Database. Please contact a system admin.'); 
