@@ -159,3 +159,14 @@ VALUES
 (3,21,CURRENT_TIMESTAMP,200),
 (4,22,CURRENT_TIMESTAMP,100);
 
+Insert into Archive_score_MONTH(user_id,score)
+VALUES (1,20000);
+
+INSERT INTO Archive_score_TOTAL (user_id,score)
+VALUES (1,25000);
+
+INSERT INTO Archive_token_MONTH(user_id,token)
+VALUES (1,200);
+
+INSERT INTO Archive_token_TOTAL(user_id,tokens)
+VALUES (1,800);

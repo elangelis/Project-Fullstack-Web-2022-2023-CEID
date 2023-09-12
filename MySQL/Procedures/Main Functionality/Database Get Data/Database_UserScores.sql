@@ -18,7 +18,7 @@ BEGIN
           LEFT JOIN archive_score_month as sm ON sm.user_id=userid
           LEFT JOIN archive_token_total as tt ON tt.user_id=userid
           LEFT JOIN archive_token_month as tm ON tm.user_id=userid
-          WHERE u.id=userid;
+          WHERE u.id=userid LIMIT 1;
      END IF;
 END$$
 DELIMITER ;

@@ -48,9 +48,9 @@
 
                             if (isset($_SESSION['User ID']))
                             {
-                                session_destroy();
-                                session_start();
-                                session_regenerate_id(true);
+                                // session_destroy();
+                                // session_start();
+                                // session_regenerate_id(true);
                             }
                             
 

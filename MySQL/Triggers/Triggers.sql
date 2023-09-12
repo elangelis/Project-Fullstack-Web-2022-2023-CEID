@@ -487,22 +487,21 @@ BEGIN
     -- check if record exists
     IF (@count IS NOT NULL AND @count>0) THEN
         -- modify previous one
-        SELECT SUM(token) INTO @prev_tokens FROM Archive_token_TOTAL WHERE user_id=new.user_id;
+        SELECT SUM(tokens) INTO @prev_tokens FROM Archive_token_TOTAL WHERE user_id=new.user_id;
         
         SET @new_tokens=@prev_tokens+new.token;
         
-        UPDATE Archive_token_TOTAL SET token=@new_score WHERE user_id=new.user_id;
+        UPDATE Archive_token_TOTAL SET tokens=@new_score WHERE user_id=new.user_id;
 
     ELSEIF(@count is NULL OR @count=0)THEN
         -- create new record
-        INSERT INTO Archive_token_TOTAL (user_id,token)VALUES(new.user_id,new.token);
+        INSERT INTO Archive_token_TOTAL (user_id,tokens)VALUES(new.user_id,new.token);
     
     END IF;
 
 END$$
 
 DELIMITER ;
-
 
 
 
