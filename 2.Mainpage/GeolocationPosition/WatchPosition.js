@@ -35,7 +35,7 @@
       }
     function success(position){
         i++;
-        // if(i>=1000000000n){
+        if(i>=1000000000n){
             i=0;
             lat = position.coords.latitude,
             lng = position.coords.longitude,
@@ -52,7 +52,7 @@
             map.fitBounds(Usercircle.getBounds());
             map.setView([lat,lng],14);
             update_Lat_Long(lat,lng);
-        // }
+        }
     }
 
     function successForce(position){
