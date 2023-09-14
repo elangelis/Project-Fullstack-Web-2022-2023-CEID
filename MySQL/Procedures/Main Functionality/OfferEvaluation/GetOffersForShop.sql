@@ -22,11 +22,11 @@ BEGIN
           IFNULL(p.photo_DATA,"empty") as photoBlob,
           u.name as userfullname,
           u.username as username,
-          IFNULL(t.score,0) as userscore
+          IFNULL((SELECT score FROM archive_score_TOTAL as st WHERE st.user_id=u.id LIMIT 1),0) AS  userscore
+
      FROM object_offer as o
      INNER JOIN object_product as p ON p.id=o.product_id
-     INNER JOIN object_user AS u ON o.creation_user_id=u.id
-     LEFT JOIN archive_score_total as t ON t.user_id=u.id;
+     INNER JOIN object_user AS u ON o.creation_user_id=u.id;
 
 END$$
 

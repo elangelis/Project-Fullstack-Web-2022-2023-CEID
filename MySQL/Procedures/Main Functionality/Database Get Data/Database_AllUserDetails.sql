@@ -19,13 +19,12 @@ BEGIN
             u.address       AS address,
             u.latitude      AS latitude,
             u.longitude     AS longitude,
-            s.score         AS total_score
+            IFNULL((SELECT score FROM archive_score_TOTAL as st WHERE st.user_id=u.id LIMIT 1),0) AS total_score
 
-     FROM object_user AS u
-     LEFT JOIN Archive_score_TOTAL AS s ON s.user_id=u.id;
+     FROM object_user AS u;
     
 END$$
 
 DELIMITER ;
 
-
+CALL Database_AllUserDetails();
