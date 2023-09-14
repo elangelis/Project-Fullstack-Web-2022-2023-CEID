@@ -6,9 +6,12 @@ var CurrentOfferArrayForEvaluation = [];
 var CurrentOfferShown=[];
 
 window.addEventListener('load', (event) => {
-    GetOffers();
-    GetCurrentShopId();
+
 });
+
+document.addEventListener("DOMContentLoaded", (event) => {
+    GetOffers();
+  });
 
 function GetCurrentShopId(){
         //Fetch Data
@@ -60,6 +63,7 @@ function GetOffers(){
             ArrayAllOffers.length=0;
             ArrayAllOffers=JSON.parse(data);
             console.log(ArrayAllOffers);
+            GetCurrentShopId();
         },
         error:function(e){
             console.log(e);

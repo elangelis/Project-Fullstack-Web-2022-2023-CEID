@@ -10,6 +10,7 @@ var markersLayer_C;
 
 
 
+
 var PopupIcon = L.Icon.extend({
     options: {
         iconSize:     [30,30],
@@ -591,7 +592,7 @@ function CheckIfUserLocationIsClosetoShopLocation(in_shopid){
             successflag=true;
             console.log('Current Distance is:\n' + newdistance +'  in meters');
         }else{
-            successflag=false;       //TODOERG
+            // successflag=false;       //TODOERG
             successflag=true;   //Return Always true for now so we can modify Pages and FunctionalityTODOERG
             console.log('Current Distance is:\n' + newdistance +'  in meters');
         }

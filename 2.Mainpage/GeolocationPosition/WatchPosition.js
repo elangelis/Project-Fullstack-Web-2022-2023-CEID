@@ -7,6 +7,20 @@
     let MarkersFetched,MarkersCreated;
     var Usermarker,Usercircle;
     
+    document.addEventListener("DOMContentLoaded", (event) => {
+        if (i!=undefined) {
+            i=10000;
+        }
+        if(mapinitialised!=undefined){
+    
+            mapinitialised=true;
+        }
+        if(locationinitialised!=undefined){
+            
+        locationinitialised=false;
+        }
+      });
+
 
    const options = {
     enableHighAccuracy: true, 
@@ -24,18 +38,22 @@
             alert("Cannot Get Current Location");
         }
     }
+    
     const myInterval2 = setInterval(initialisemap, 1000);
     function initialisemap() {
         if(mapinitialised){
             if (!locationinitialised){
                 navigator.geolocation.watchPosition(success, errorCallback, options);
+                
                 clearInterval(myInterval2);
             }
         }
       }
+
     function success(position){
         i++;
-        if(i>=1000000000n){
+        if (!locationinitialised){
+        // if(i>=10){
             i=0;
             lat = position.coords.latitude,
             lng = position.coords.longitude,
@@ -52,6 +70,9 @@
             map.fitBounds(Usercircle.getBounds());
             map.setView([lat,lng],14);
             update_Lat_Long(lat,lng);
+
+            locationinitialised=true;
+        // }
         }
     }
 
@@ -65,7 +86,7 @@
     }
     
     
-    navigator.geolocation.watchPosition(success, errorCallback, options);
+    // navigator.geolocation.watchPosition(success, errorCallback, options);
     
     function update_Lat_Long(lat,lng) {
         var userdata = {};
