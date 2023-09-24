@@ -254,12 +254,12 @@
     }
 
     .boardt_row{
-
         display: flex;
         border: 1px solid green;
         margin-top: 3px;
         width: 1531px;
         overflow: hidden;
+        height: 27px;
     }
 
     .boardt_cell{

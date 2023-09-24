@@ -22,7 +22,7 @@ require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.
 
         }elseif($opt==2){
             try{
-                $deletePOI = 'CALL DeleteAllData();';
+                $deletePOI = 'CALL DeleteAllPOIS();';
                 $trydeletePOI= $pdo->prepare($deletePOI);
                 $trydeletePOI->execute();
 
