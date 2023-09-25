@@ -86,8 +86,8 @@
       </div>
     </div>
     <div class="pen-footer">
-      <!-- <a href="https://github.com/elangelis/Web_Project-full-stack" target="_blank"> -->
-      <a href="www.google.com" target="_blank">
+      <a href="https://github.com/elangelis/Web_Project-full-stack" target="_blank">
+      <!-- <a href="www.google.com" target="_blank"> -->
           <i 
               class="material-icons"><--
           </i>
