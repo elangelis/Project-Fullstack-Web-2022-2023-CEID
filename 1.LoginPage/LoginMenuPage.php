@@ -43,9 +43,9 @@
               <input type="email" id="Email" name="login_email" required="required"/>
             </div>
             <div class="form-group">
-              <label class="form-remember">
+              <!-- <label class="form-remember">
                 <input type="checkbox"/>Remember Me
-              </label><a class="form-recovery" href="#">Forgot Password?</a>
+              </label><a class="form-recovery" href="#">Forgot Password?</a> -->
             </div>
             <div class="form-group">
               <button id="Login_button_page" type="submit" name='Log_In_button'>Log In</button>

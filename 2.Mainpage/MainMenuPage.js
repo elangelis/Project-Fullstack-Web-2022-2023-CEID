@@ -372,8 +372,8 @@ function GetUserScore(){
     let total_tok = document.getElementById('total_tokens');
     let cur_tok = document.getElementById('current_tokens');
 
-    let cur_sc = document.getElementById('total_score');
-    let total_sc = document.getElementById('current_score');
+    let total_sc = document.getElementById('total_score');
+    let cur_sc = document.getElementById('current_score');
 
     $.ajax({
       url: 'MainFunctionality/GET_UserAllScores.php',
