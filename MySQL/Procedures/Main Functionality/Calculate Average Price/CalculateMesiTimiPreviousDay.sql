@@ -14,6 +14,7 @@ BEGIN
     SELECT COUNT(*) INTO @count0 FROM Archive_Product_MesiTimi WHERE date=@datefilter AND product_id=in_product_id;
 
     IF(@count0 IS NOT NULL AND @count0=1) THEN 
+        
         SELECT mesi_timi INTO @previousmesitimi FROM Archive_Product_MesiTimi WHERE date=@datefilter AND product_id=in_product_id;
         IF (@previousmesitimi IS NOT NULL)THEN
             SET @mesitimiday=@previousmesitimi;
@@ -21,6 +22,7 @@ BEGIN
             SET @historycount=0;
             SET @product_sum=0;
         END IF;
+
     ELSEIF(@count0  IS NULL OR @count0=0)THEN
         SET @historycount=0;
         SET @product_sum=0;

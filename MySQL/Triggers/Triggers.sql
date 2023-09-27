@@ -188,7 +188,6 @@ DELIMITER ;
                 ELSEIF (new.product_price<=@Compare_Week>0)THEN
                     SET @ScoreForInsert=20;
                 END IF;
-            
             ELSE
                 SET @ScoreForInsert=50;
             END IF;

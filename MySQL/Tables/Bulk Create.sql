@@ -294,6 +294,39 @@ CREATE TABLE object_offer
     DELIMITER ; 
 
 
+    DELIMITER ;
+    DROP TRIGGER IF EXISTS OnBeforeInsertOffer_ModifyMesiTimiCriteria;
+
+    DELIMITER $$   
+    CREATE TRIGGER IF NOT EXISTS OnBeforeInsertOffer_ModifyMesiTimiCriteria BEFORE INSERT  
+    ON object_offer FOR EACH ROW  
+    BEGIN
+        
+        CALL CalculateMesiTimiPreviousDay(new.product_id,@mesitimi_day);
+        
+        CALL CalculateMesiTimiPrevious7Days(new.product_id,@mesitimi_week);
+
+        SET new.criteria_A=FALSE;
+        SET new.criteria_B=FALSE;
+        
+        IF (@mesitimi_day IS NOT NULL AND new.product_price<=@mesitimi_day)THEN
+            SET new.criteria_A=TRUE;
+        ELSEIF(@mesitimi_day IS NULL)THEN
+            SET new.criteria_A=TRUE;
+        END IF;
+
+        IF (@mesitimi_week IS NOT NULL AND new.product_price<=@mesitimi_week)THEN
+            SET new.criteria_B=TRUE;
+        ELSEIF(@mesitimi_day IS NULL)THEN
+             SET new.criteria_B=TRUE;
+        END IF;
+
+
+    END$$ 
+    DELIMITER ; 
+
+
+
 --  Update product history
 
     DELIMITER ;

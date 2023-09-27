@@ -116,9 +116,9 @@ BEGIN
      
      IF(@Compare_Day>0 OR @Compare_Week>0)THEN
           IF (new.product_price<=@Compare_Day)THEN
-          SET @ScoreForInsert=50;
-          ELSEIF (new.product_price<=@Compare_Week>0)THEN
-          SET @ScoreForInsert=20;
+               SET @ScoreForInsert=50;
+          ELSEIF (new.product_price<=@Compare_Week)THEN
+               SET @ScoreForInsert=20;
           END IF;
      ELSE
           SET @ScoreForInsert=50;
