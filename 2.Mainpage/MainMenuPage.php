@@ -22,10 +22,9 @@
         <div id="User_loggedin">you are logged in as:
             <?php
                 // require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginUser.php";
-                
                 require_once "C:/xampp/htdocs/web-v.1.0.0.1/ApacheRESTServices/SETUP_connection.php";    
-                
                 // require_once "C:/xampp/htdocs/web-v.1.0.0.1/1.LoginPage/LoginUser.php";
+            
                 echo $_SESSION['Logged User'];
             ?>
         </div>
