@@ -10,8 +10,7 @@ DELIMITER $$
 CREATE PROCEDURE IF NOT EXISTS CalculateMesiTimiPreviousDay(IN in_product_id INT,OUT mesitimiday DECIMAL (10,2))
 BEGIN
 
-    SET @datefilter=CURRENT_DATE;
-	select @datefilter;
+    SET @datefilter	=	DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY);
     SELECT COUNT(*) INTO @count0 FROM Archive_Product_MesiTimi WHERE date=@datefilter AND product_id=in_product_id;
 
     IF(@count0 IS NOT NULL AND @count0=1) THEN 
@@ -42,7 +41,7 @@ BEGIN
                 INSERT INTO Archive_Product_MesiTimi (product_id,mesi_timi,date) VALUES(in_product_id, @mesitimiday,@datefilter);
             END IF;
         ELSEIF(@historycount IS NULL OR @historycount=0)THEN
-            SET  @mesitimiday=0;
+            SET  @mesitimiday=NULL;
         END IF;
     END IF;
     SET mesitimiday= @mesitimiday;

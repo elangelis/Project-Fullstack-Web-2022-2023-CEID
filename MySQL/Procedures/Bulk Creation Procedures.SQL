@@ -18,11 +18,8 @@ BEGIN
     -- CURRENT DATE -7
     SET @historycount_7=0;
     SET @product_sum_7=0;    
-    SELECT COUNT(id)            INTO @historycount_7      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY) AND product_id=in_product_id;
-
+    SELECT COUNT(id)            INTO @historycount_7      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY) AND product_id=in_product_id;
     if (@historycount>0) THEN
-
         SELECT SUM(product_price)   INTO @product_sum_7       FROM Archive_Product_History 
         WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY) AND product_id=in_product_id;
 
@@ -33,8 +30,7 @@ BEGIN
     SET @historycount_6=0;
     SET @product_sum_6=0;
         
-    SELECT COUNT(id)            INTO @historycount_6      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY) AND product_id=in_product_id;
+    SELECT COUNT(id)            INTO @historycount_6      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY) AND product_id=in_product_id;
     
     if (@historycount>0) THEN
 

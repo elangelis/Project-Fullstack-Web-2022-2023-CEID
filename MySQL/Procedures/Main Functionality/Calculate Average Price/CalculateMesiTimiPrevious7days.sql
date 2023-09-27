@@ -13,16 +13,17 @@ BEGIN
 
     SET @mesitimitSUM=0;
     SET @mesitimiCount=0;
-    -- SET @datefilterlow	=	DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY);
-    SET @datefilterlow	=	DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY);
-    -- SET @datefilterhigh	=	DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY);
-    SET @datefilterhigh	=	CURRENT_DATE;
+    SET @datefilterlow	=	DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY);
+    -- SET @datefilterlow	=	DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY);
+    SET @datefilterhigh	=	DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY);
+    -- SET @datefilterhigh	=	CURRENT_DATE;
     
     SELECT SUM(mesi_timi) INTO @mesitimi_sumcase1 FROM Archive_Product_MesiTimi WHERE product_id=in_product_id and date BETWEEN @datefilterlow AND @datefilterhigh;
     SELECT COUNT(*) INTO @mesitimi_count1 FROM Archive_Product_MesiTimi WHERE product_id=in_product_id and date BETWEEN @datefilterlow AND @datefilterhigh;
 
     IF (@mesitimi_count1 IS NOT NULL AND @mesitimi_count1>0) THEN
     	SET mesitimiweek=ROUND(@mesitimi_sumcase1 / @mesitimi_count1,2);
+
     ELSEIF(@mesitimi_count1 IS NULL OR @mesitimi_count1=0)THEN
 
         --     -- CURRENT DATE -7
@@ -91,10 +92,8 @@ BEGIN
         SET @historycount_1=0;
         SET @product_sum_1=0;	
         SELECT COUNT(id)            INTO @historycount_1      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND product_id=in_product_id;
-        SELECT COUNT(id) 			INTO @historycount_1      FROM Archive_Product_History WHERE date=CURRENT_DATE AND product_id=in_product_id;
         IF (@historycount_1 IS NOT NULL AND @historycount_1>0) THEN
             SELECT SUM(product_price)   INTO @product_sum_1       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND product_id=in_product_id;
-            SELECT SUM(product_price)   INTO @product_sum_1       FROM Archive_Product_History WHERE date=CURRENT_DATE AND product_id=in_product_id;
             SET @mesitimiCount= @mesitimiCount+@historycount_1;
         END IF;
         
@@ -103,7 +102,7 @@ BEGIN
             SET @mesitimitSUM=@product_sum_1+@product_sum_2+@product_sum_3+@product_sum_4+@product_sum_5+@product_sum_6+@product_sum_7;
         	SET mesitimiweek=ROUND(@mesitimitSUM / @mesitimiCount,2);     
         ELSEIF(@mesitimiCount IS NULL OR @mesitimiCount=0)THEN
-            SET mesitimiweek=0;
+            SET mesitimiweek=NULL;
         END IF;
         
 	END IF;
