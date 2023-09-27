@@ -55,13 +55,26 @@ BEGIN
                     -- Compare to mesitimiweek
                     IF(@current_offer_price<=@mesitimiweek)THEN
                         -- Update Current offer to new expiration Date
-                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY)WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_B=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                    END IF;
+                    IF(@mesitimiday IS NOT NULL)THEN
+                        IF(@current_offer_price<=@mesitimiday)THEN
+                            -- Update Current offer to new expiration Date
+                            UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_A=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        END IF;
                     END IF;
                 ELSEIF(@mesitimiday IS NOT NULL)THEN
+                     -- Compare to mesitimiweek
+                    IF(@mesitimiweek IS NOT NULL)THEN
+                        IF(@current_offer_price<=@mesitimiweek)THEN
+                            -- Update Current offer to new expiration Date
+                            UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_B=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        END IF;
+                    END IF;
                     -- Compare to mesitimiday
                     IF(@current_offer_price<=@mesitimiday)THEN
                         -- Update Current offer to new expiration Date
-                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY)WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_A=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
                     END IF;    
                 END IF;
             END IF;
@@ -70,7 +83,7 @@ BEGIN
     
     END WHILE;
     -- DELETE ALL OFFERS THAT DIDNT UPDATE AND ARE STILL EXPIRING TODAY 
-    DELETE FROM object_offer WHERE expiration_date<=CURRENT_DATE;
+    -- DELETE FROM object_offer WHERE expiration_date<CURRENT_DATE;
 
 END$$
 

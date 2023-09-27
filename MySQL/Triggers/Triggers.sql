@@ -143,11 +143,9 @@ DELIMITER ;
           IF (@ScoreForInsert!=0)THEN
                INSERT INTO Archive_user_score_history (user_id,offer_id,date,score) VALUES(new.creation_user_id,new.id,CURRENT_TIMESTAMP,@ScoreForInsert);
           END IF;
-
-        
     END$$ 
-
     DELIMITER ; 
+
 
 
     DELIMITER ;
@@ -196,10 +194,7 @@ DELIMITER ;
                 INSERT INTO Archive_user_score_history (user_id,offer_id,date,score) VALUES(new.creation_user_id,new.id,CURRENT_TIMESTAMP,@ScoreForInsert);
 
             END IF;
-
-        
     END$$ 
-
     DELIMITER ; 
 
 --  Update user score history
@@ -214,9 +209,7 @@ DELIMITER ;
     CREATE TRIGGER OnAfterUpdateOffer_UpdateShopHasOffer AFTER UPDATE  
     ON object_offer FOR EACH ROW  
     BEGIN
-
         UPDATE object_shop SET active_offer=TRUE WHERE id=new.shop_id;
-
     END $$
 
     DELIMITER ;
@@ -230,9 +223,7 @@ DELIMITER ;
     CREATE TRIGGER OnAfterInsertOffer_UpdateShopHasOffer AFTER INSERT  
     ON object_offer FOR EACH ROW  
     BEGIN
-
-    UPDATE object_shop SET active_offer=TRUE WHERE id=new.shop_id;
-
+        UPDATE object_shop SET active_offer=TRUE WHERE id=new.shop_id;
     END $$
     DELIMITER ;
 
@@ -245,19 +236,14 @@ DELIMITER ;
     CREATE TRIGGER OnAfterDeleteOffer_UpdateShopHasOffer AFTER DELETE  
     ON object_offer FOR EACH ROW  
     BEGIN
-
         SET @count_offers=0;
-        
         SELECT COUNT(*) INTO @count_offers FROM object_offer WHERE shop_id=old.shop_id;
-        
         IF(@count_offers IS NULL OR @count_offers=0)THEN
             UPDATE object_shop SET active_offer=FALSE WHERE id=old.shop_id;
         ELSEIF(@count_offers IS NOT NULL AND @count_offers>0)THEN
             UPDATE object_shop SET active_offer=TRUE WHERE id=old.shop_id;
         END IF;
-
     END $$
-
     DELIMITER ;
 
 
