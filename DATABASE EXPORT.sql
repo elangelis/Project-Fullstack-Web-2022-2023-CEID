@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Εξυπηρετητής: 127.0.0.1
--- Χρόνος δημιουργίας: 18 Σεπ 2023 στις 19:02:54
+-- Χρόνος δημιουργίας: 27 Σεπ 2023 στις 14:17:26
 -- Έκδοση διακομιστή: 10.4.27-MariaDB
 -- Έκδοση PHP: 8.2.0
 
@@ -144,141 +144,141 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `ADMIN_InsertSubcategories` (IN `sub
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CalculateMesiTimiPrevious7Days` (IN `in_product_id` INT, OUT `mesitimiweek` DECIMAL(10,2))   BEGIN
+
     SET @mesitimitSUM=0;
-    SET @mesitimiCount=7;
-
-
-    -- CURRENT DATE -7
-    SET @historycount_7=0;
-    SET @product_sum_7=0;    
-    SELECT COUNT(id)            INTO @historycount_7      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY) AND product_id=in_product_id;
-
-    if (@historycount>0) THEN
-
-        SELECT SUM(product_price)   INTO @product_sum_7       FROM Archive_Product_History 
-        WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY) AND product_id=in_product_id;
-
-        SET @mesitimiCount=@mesitimiCount+1;
-    END IF;
+    SET @mesitimiCount=0;
+    -- SET @datefilterlow	=	DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY);
+    SET @datefilterlow	=	DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY);
+    -- SET @datefilterhigh	=	DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY);
+    SET @datefilterhigh	=	CURRENT_DATE;
     
-    -- CURRENT DATE -6
-    SET @historycount_6=0;
-    SET @product_sum_6=0;
+    SELECT SUM(mesi_timi) INTO @mesitimi_sumcase1 FROM Archive_Product_MesiTimi WHERE product_id=in_product_id and date BETWEEN @datefilterlow AND @datefilterhigh;
+    SELECT COUNT(*) INTO @mesitimi_count1 FROM Archive_Product_MesiTimi WHERE product_id=in_product_id and date BETWEEN @datefilterlow AND @datefilterhigh;
+
+    IF (@mesitimi_count1 IS NOT NULL AND @mesitimi_count1>0) THEN
+    	SET mesitimiweek=ROUND(@mesitimi_sumcase1 / @mesitimi_count1,2);
+
+    ELSEIF(@mesitimi_count1 IS NULL OR @mesitimi_count1=0)THEN
+
+        --     -- CURRENT DATE -7
+		SET @mesitimiCount=0;
         
-    SELECT COUNT(id)            INTO @historycount_6      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY) AND product_id=in_product_id;
-    
-    if (@historycount>0) THEN
-
-        SELECT SUM(product_price)   INTO @product_sum_6       FROM Archive_Product_History 
-        WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY) AND product_id=in_product_id;
-
-        SET @mesitimiCount=@mesitimiCount+1;
-    END IF;
-
-    -- CURRENT DATE -5
-    SET @historycount_5=0;
-    SET @product_sum_5=0;
+        SET @historycount_7=0;
+        SET @product_sum_7=0;    
+        SELECT COUNT(id)            INTO @historycount_7      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY) AND product_id=in_product_id;
         
-    SELECT COUNT(id)            INTO @historycount_5      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 5 DAY) AND product_id=in_product_id;
-    
-    if (@historycount>0) THEN
-
-        SELECT SUM(product_price)   INTO @product_sum_5       FROM Archive_Product_History 
-        WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 5 DAY) AND product_id=in_product_id;
-
-        SET @mesitimiCount=@mesitimiCount+1;
-    END IF;
-
-
-    -- CURRENT DATE -4
-    SET @historycount_4=0;
-    SET @product_sum_4=0;
+        IF (@histoycount_7 IS NOT NULL AND @historycount_7>0) THEN
+            SELECT SUM(product_price)   INTO @product_sum_7       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 7 DAY) AND product_id=in_product_id;
+            SET @mesitimiCount= @mesitimiCount+@historycount_7;
+        END IF;
         
-    SELECT COUNT(id)            INTO @historycount_4      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 4 DAY) AND product_id=in_product_id;
-    
-    if (@historycount>0) THEN
+        --     -- CURRENT DATE -6
 
-        SELECT SUM(product_price)   INTO @product_sum_4       FROM Archive_Product_History 
-        WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 4 DAY) AND product_id=in_product_id;
+        SET @historycount_6=0;
+        SET @product_sum_6=0;
+        SELECT COUNT(id)            INTO @historycount_6      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY) AND product_id=in_product_id;
+        IF (@histoycount_6 IS NOT NULL AND @historycount_6>0) THEN
+            SELECT SUM(product_price)   INTO @product_sum_6       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 6 DAY) AND product_id=in_product_id;
+            SET @mesitimiCount= @mesitimiCount+@historycount_6;
+        END IF;
+		
+        --     -- CURRENT DATE -5
 
-        SET @mesitimiCount=@mesitimiCount+1;
-    END IF;
+        SET @historycount_5=0;
+        SET @product_sum_5=0;  
+        SELECT COUNT(id)            INTO @historycount_5      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 5 DAY) AND product_id=in_product_id;
+        IF (@histoycount_5 IS NOT NULL AND @historycount_5>0) THEN
+            SELECT SUM(product_price)   INTO @product_sum_5       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 5 DAY) AND product_id=in_product_id;
+            SET @mesitimiCount= @mesitimiCount+@historycount_5;
+        END IF;
 
 
-    -- CURRENT DATE -3
-    SET @historycount_3=0;
-    SET @product_sum_3=0;
+        --     -- CURRENT DATE -4
+
+        SET @historycount_4=0;
+        SET @product_sum_4=0;
+        SELECT COUNT(id)            INTO @historycount_4      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 4 DAY) AND product_id=in_product_id;
+        IF (@histoycount_4 IS NOT NULL AND @historycount_4>0) THEN
+            SELECT SUM(product_price)   INTO @product_sum_4       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 4 DAY) AND product_id=in_product_id;
+            SET @mesitimiCount= @mesitimiCount+@historycount_4;
+        END IF;
+
+
+        --     -- CURRENT DATE -3
+        SET @historycount_3=0;
+        SET @product_sum_3=0;
+        SELECT COUNT(id)            INTO @historycount_3      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 3 DAY) AND product_id=in_product_id;
+        IF (@histoycount_3 IS NOT NULL AND @historycount_3>0) THEN
+            SELECT SUM(product_price)   INTO @product_sum_3       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 3 DAY) AND product_id=in_product_id;
+            SET @mesitimiCount= @mesitimiCount+@historycount_3;
+        END IF;
         
-    SELECT COUNT(id)            INTO @historycount_3      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 3 DAY) AND product_id=in_product_id;
-    
-    if (@historycount>0) THEN
-
-        SELECT SUM(product_price)   INTO @product_sum_3       FROM Archive_Product_History 
-        WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 3 DAY) AND product_id=in_product_id;
-
-        SET @mesitimiCount=@mesitimiCount+1;
-    END IF;
-
-    -- CURRENT DATE -2
-    SET @historycount_2=0;
-    SET @product_sum_2=0;
+        --     -- CURRENT DATE -2
+        SET @historycount_2=0;
+        SET @product_sum_2=0;
+        SELECT COUNT(id)            INTO @historycount_2      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 2 DAY) AND product_id=in_product_id;
+        IF (@histoycount_2 IS NOT NULL AND @historycount_2>0) THEN
+            SELECT SUM(product_price)   INTO @product_sum_2       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 2 DAY) AND product_id=in_product_id;
+            SET @mesitimiCount= @mesitimiCount+@historycount_2;
+        END IF;
         
-    SELECT COUNT(id)            INTO @historycount_2      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 2 DAY) AND product_id=in_product_id;
-    
-    if (@historycount>0) THEN
-
-        SELECT SUM(product_price)   INTO @product_sum_2       FROM Archive_Product_History 
-        WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 2 DAY) AND product_id=in_product_id;
-
-        SET @mesitimiCount=@mesitimiCount+1;
-    END IF;
-
-    -- CURRENT DATE -1
-    SET @historycount_1=0;
-    SET @product_sum_1=0;
+        --     -- CURRENT DATE -1
+        SET @historycount_1=0;
+        SET @product_sum_1=0;	
+        SELECT COUNT(id)            INTO @historycount_1      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND product_id=in_product_id;
+        IF (@historycount_1 IS NOT NULL AND @historycount_1>0) THEN
+            SELECT SUM(product_price)   INTO @product_sum_1       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND product_id=in_product_id;
+            SET @mesitimiCount= @mesitimiCount+@historycount_1;
+        END IF;
         
-    SELECT COUNT(id)            INTO @historycount_1      FROM Archive_Product_History 
-    WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND product_id=in_product_id;
-    
-    if (@historycount>0) THEN
-
-        SELECT SUM(product_price)   INTO @product_sum_1       FROM Archive_Product_History 
-        WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 2 DAY) AND product_id=in_product_id;
-
-        SET @mesitimiCount=@mesitimiCount+1;
-    END IF;
-
-
-    IF (@mesitimiCount IS NOT NULL OR @mesitimiCount>0)THEN
-        SET @mesitimitSUM=@product_sum_1+@product_sum_2+@product_sum_3+@product_sum_4+@product_sum_5+@product_sum_6+@product_sum_7;
-        SET mesitimiweek=ROUND(@mesitimitSUM / @mesitimiCount,2);
-    ELSEIF(@mesitimiCount IS NULL OR @mesitimiCount=0)THEN
-        SET mesitimiweek=0;
-    END IF;
-
-
+        
+        IF (@mesitimiCount IS NOT NULL OR @mesitimiCount>0)THEN
+            SET @mesitimitSUM=@product_sum_1+@product_sum_2+@product_sum_3+@product_sum_4+@product_sum_5+@product_sum_6+@product_sum_7;
+        	SET mesitimiweek=ROUND(@mesitimitSUM / @mesitimiCount,2);     
+        ELSEIF(@mesitimiCount IS NULL OR @mesitimiCount=0)THEN
+            SET mesitimiweek=NULL;
+        END IF;
+        
+	END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `CalculateMesiTimiPreviousDay` (IN `in_product_id` INT, OUT `mesitimiday` DECIMAL(10,2))   BEGIN
 
-    SET @historycount=0;
-    SET @product_sum=0;
-        
-    SELECT COUNT(id)            INTO @historycount      FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND product_id=in_product_id;
-    SELECT SUM(product_price)   INTO @product_sum       FROM Archive_Product_History WHERE date=DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY) AND product_id=in_product_id;
-    
-    if (@historycount>0) THEN
-        SET mesitimiday=ROUND(@product_sum/@historycount,2);
-    ELSE
-        SET mesitimiday=0;
-    END IF;
+    SET @datefilter	=	DATE_SUB(CURRENT_DATE,INTERVAL 1 DAY);
+    SELECT COUNT(*) INTO @count0 FROM Archive_Product_MesiTimi WHERE date=@datefilter AND product_id=in_product_id;
 
+    IF(@count0 IS NOT NULL AND @count0=1) THEN 
+        SELECT mesi_timi INTO @previousmesitimi FROM Archive_Product_MesiTimi WHERE date=@datefilter AND product_id=in_product_id;
+        IF (@previousmesitimi IS NOT NULL)THEN
+            SET @mesitimiday=@previousmesitimi;
+        ELSEIF(@previousmesitimi IS NULL)THEN
+            SET @historycount=0;
+            SET @product_sum=0;
+        END IF;
+    ELSEIF(@count0  IS NULL OR @count0=0)THEN
+        SET @historycount=0;
+        SET @product_sum=0;
+
+        SELECT COUNT(id)            INTO @historycount      FROM Archive_Product_History WHERE date=@datefilter AND product_id=in_product_id;
+        SELECT SUM(product_price)   INTO @product_sum       FROM Archive_Product_History WHERE date=@datefilter AND product_id=in_product_id;
+        
+        IF (@historycount>0) THEN
+            SET @mesitimiday=ROUND(@product_sum/@historycount,2);
+            SELECT COUNT(*) INTO @count1 FROM Archive_Product_MesiTimi WHERE date=@datefilter AND product_id=in_product_id;
+            
+            IF (@count1 IS NOT NULL AND @count1=1)THEN
+                SELECT mesi_timi INTO @previousmesitimi FROM Archive_Product_MesiTimi WHERE date=@datefilter AND product_id=in_product_id;
+                IF (@previousmesitimi != @mesitimiday)THEN 
+                    UPDATE Archive_Product_MesiTimi SET mesi_timi= @mesitimiday WHERE product_id=in_product_id and date=@datefilter;
+                END IF;
+            ELSEIF(@count1 IS NULL OR @count1=0)THEN
+                INSERT INTO Archive_Product_MesiTimi (product_id,mesi_timi,date) VALUES(in_product_id, @mesitimiday,@datefilter);
+            END IF;
+        ELSEIF(@historycount IS NULL OR @historycount=0)THEN
+            SET  @mesitimiday=NULL;
+        END IF;
+    END IF;
+    SET mesitimiday= @mesitimiday;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `ChangeOfferStockStatus` (IN `in_offer_id` INTEGER, IN `Available` BOOLEAN)   BEGIN
@@ -509,26 +509,24 @@ END$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `EndMonth_UpdateAllUserScore` ()   BEGIN
 
     SET @user_count=0;
-    
     SELECT COUNT(*) INTO @user_count FROM object_user;
-    
     SELECT MAX(id)  INTO @user_max_id FROM object_user;
     SELECT MIN(id)  INTO @user_min_id FROM object_user;
-    
-  	SET @user_pointer=0;
+        
+    SET @user_pointer=0;
     IF (@user_min_id IS NOT NULL) THEN
         SET @user_pointer=@user_min_id;
     END IF;
 
     SET @token_avail=0;
     SELECT token_AVAILABLE INTO @token_avail from Archive_token_BANK WHERE month_start=DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY) AND month_end=LAST_DAY(CURRENT_DATE);
-    
+        
     SET @score_month_TOTAL=0;
     SELECT SUM(score) INTO @score_month_TOTAL from Archive_user_score_history WHERE date>=DATE_SUB(CURRENT_DATE, INTERVAL DAYOFMONTH(CURRENT_DATE)-1 DAY) AND date<=LAST_DAY(CURRENT_DATE);
 
 
     IF (@token_avail>0) THEN
-        IF(@score_month_TOTAL)THEN
+        IF(@score_month_TOTAL>0)THEN
             WHILE (@user_pointer<@user_max_id) DO
     
                 SET @user_score_percentage=0;
@@ -539,24 +537,22 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `EndMonth_UpdateAllUserScore` ()   B
 
                 IF (@user_score_month IS NOT NULL AND @user_score_month>0)THEN
                     
-                    SELECT @user_score_month DIV @score_month_TOTAL INTO @user_score_percentage;
+                    SET @user_score_percentage=@user_score_month/@score_month_TOTAL;
 
                     INSERT INTO Archive_score_MONTH (user_id,score) VALUES (@user_pointer,@user_score_month);
 
                     IF(@user_score_percentage>0)THEN
-                        SET @user_token_TOTAL=@token_avail/@user_score_percentage;
+                       SET @user_token_TOTAL=ROUND(@token_avail*@user_score_percentage,0);
 
-                        INSERT INTO Archive_token_MONTH(user_id,token)VALUES(@user_pointer,@user_token_TOTAL);
+                        INSERT INTO Archive_token_MONTH (user_id,token) VALUES (@user_pointer,@user_token_TOTAL);
                     ELSE
-                        INSERT INTO Archive_token_MONTH(user_id,token)VALUES(@user_pointer,@user_token_TOTAL);
+                        INSERT INTO Archive_token_MONTH (user_id,token) VALUES (@user_pointer,@user_token_TOTAL);
                     END IF;
                 
                 END IF;
                 SET @user_pointer=@user_pointer+1;
             END WHILE;
         END IF;
-
-
     END IF;
 END$$
 
@@ -649,7 +645,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `StartMonth_UpdateTokenBankAvailable
 
     IF (@user_count>0)THEN
         SET @tokenTOTAL=@user_count*100;
-        SET @tokenAVAILABLE=FLOOR((80/100)*100);
+        SET @tokenAVAILABLE=FLOOR((80/100)*@tokenTOTAL);
     END IF;
 
     INSERT INTO Archive_token_BANK (users_count,token_TOTAL,token_AVAILABLE,date_created,datetime_created) VALUES (@user_count,@tokenTOTAL,@tokenAVAILABLE,CURRENT_DATE,CURRENT_TIMESTAMP);
@@ -809,13 +805,26 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_DeleteExistingOffers` ()   B
                     -- Compare to mesitimiweek
                     IF(@current_offer_price<=@mesitimiweek)THEN
                         -- Update Current offer to new expiration Date
-                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY)WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_B=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                    END IF;
+                    IF(@mesitimiday IS NOT NULL)THEN
+                        IF(@current_offer_price<=@mesitimiday)THEN
+                            -- Update Current offer to new expiration Date
+                            UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_A=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        END IF;
                     END IF;
                 ELSEIF(@mesitimiday IS NOT NULL)THEN
+                     -- Compare to mesitimiweek
+                    IF(@mesitimiweek IS NOT NULL)THEN
+                        IF(@current_offer_price<=@mesitimiweek)THEN
+                            -- Update Current offer to new expiration Date
+                            UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_B=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        END IF;
+                    END IF;
                     -- Compare to mesitimiday
                     IF(@current_offer_price<=@mesitimiday)THEN
                         -- Update Current offer to new expiration Date
-                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY)WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
+                        UPDATE object_offer SET expiration_date=DATE_ADD(CURRENT_DATE,INTERVAL 7 DAY),criteria_A=true WHERE id=@current_offer_id AND expiration_date<=CURRENT_DATE;
                     END IF;    
                 END IF;
             END IF;
@@ -824,8 +833,25 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_DeleteExistingOffers` ()   B
     
     END WHILE;
     -- DELETE ALL OFFERS THAT DIDNT UPDATE AND ARE STILL EXPIRING TODAY 
-    DELETE FROM object_offer WHERE expiration_date<=CURRENT_DATE;
+    -- DELETE FROM object_offer WHERE expiration_date<CURRENT_DATE;
 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_MesiTimi_AllProducts_PreviousDay` ()   BEGIN
+
+     SELECT MAX(id) INTO @max_id FROM object_product;
+
+     SET @pointer_1=0;
+
+     IF (@max_id IS NOT NULL) THEN
+          WHILE (@pointer_1<=@max_id) DO
+               SELECT COUNT(*) INTO @count FROM object_product WHERE id=@pointer_1;
+               IF (@count IS NOT NULL AND @count>=1) THEN
+                    CALL CalculateMesiTimiPreviousDay(@pointer_1,@mesitimi);
+               END IF;
+               SET  @pointer_1 =     @pointer_1     +    1;
+          END WHILE;
+     END IF;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `UserScoreAndTokens` (IN `userid` INTEGER)   BEGIN
@@ -908,7 +934,40 @@ INSERT INTO `archive_product_history` (`id`, `shop_id`, `product_id`, `product_p
 (70, 25, 36, '123.00', '2023-09-13'),
 (71, 21, 1, '4.75', '2023-09-13'),
 (72, 1274, 1123, '1552.00', '2023-09-14'),
-(73, 23, 1, '4.75', '2023-09-14');
+(73, 23, 1, '4.75', '2023-09-14'),
+(74, 542, 36, '99999.99', '2023-09-26'),
+(75, 22, 1, '4.75', '2023-09-26'),
+(76, 1148, 26, '12.00', '2023-09-26'),
+(77, 1055, 26, '12.00', '2023-09-26'),
+(78, 1195, 26, '12.00', '2023-09-26'),
+(80, 1, 30, '20.00', '2023-09-26'),
+(81, 2, 30, '25.00', '2023-09-26'),
+(82, 3, 30, '35.00', '2023-09-26'),
+(83, 4, 30, '45.00', '2023-09-26'),
+(85, 47, 30, '29.00', '2023-09-27'),
+(86, 1, 1, '4.75', '2023-09-27'),
+(87, 3, 1, '4.75', '2023-09-27'),
+(88, 8, 1, '4.75', '2023-09-27'),
+(89, 9, 1, '4.75', '2023-09-27'),
+(90, 10, 1, '4.75', '2023-09-27'),
+(91, 11, 1, '4.75', '2023-09-27'),
+(92, 12, 1, '4.75', '2023-09-27'),
+(93, 13, 1, '4.75', '2023-09-27'),
+(94, 14, 1, '4.75', '2023-09-27'),
+(95, 15, 1, '4.75', '2023-09-27'),
+(96, 16, 1, '4.75', '2023-09-27'),
+(98, 18, 1, '4.75', '2023-09-27'),
+(99, 19, 1, '4.75', '2023-09-27'),
+(100, 20, 1, '4.75', '2023-09-27'),
+(101, 21, 1, '4.75', '2023-09-27'),
+(102, 22, 1, '4.75', '2023-09-27'),
+(103, 23, 1, '4.75', '2023-09-27'),
+(104, 24, 1, '4.75', '2023-09-27'),
+(105, 25, 36, '123.00', '2023-09-27'),
+(106, 22, 36, '99999.99', '2023-09-27'),
+(115, 17, 1, '4.75', '2023-09-27'),
+(122, 27, 30, '30.00', '2023-09-27'),
+(123, 99, 431, '15.00', '2023-09-27');
 
 --
 -- Δείκτες `archive_product_history`
@@ -954,7 +1013,11 @@ INSERT INTO `archive_product_mesitimi` (`id`, `product_id`, `mesi_timi`, `date`)
 (12, 799, '1.95', '2022-11-16'),
 (13, 799, '1.93', '2022-11-17'),
 (14, 799, '1.94', '2022-11-18'),
-(15, 799, '1.85', '2022-11-19');
+(15, 799, '1.85', '2022-11-19'),
+(18, 30, '31.25', '2023-09-26'),
+(20, 36, '99999.99', '2023-09-26'),
+(21, 26, '12.00', '2023-09-26'),
+(24, 1, '4.75', '2023-09-26');
 
 -- --------------------------------------------------------
 
@@ -978,7 +1041,36 @@ CREATE TABLE `archive_score_month` (
 --
 
 INSERT INTO `archive_score_month` (`id`, `user_id`, `score`, `date_created`, `month_start`, `month_end`, `month`, `year`) VALUES
-(1, 1, 20000, '2023-09-13', '2023-09-01', '2023-09-30', 9, 2023);
+(2, 1, 1774, '2023-09-26', '2023-09-01', '2023-09-30', 9, 2023),
+(3, 3, 55, '2023-09-26', '2023-09-01', '2023-09-30', 9, 2023),
+(10, 2, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(11, 4, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(12, 5, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(13, 6, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(14, 7, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(15, 8, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(16, 9, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(17, 10, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(18, 11, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(19, 12, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(20, 13, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(21, 14, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(22, 15, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(23, 16, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(24, 17, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(25, 18, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(26, 19, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(27, 20, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(28, 21, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(29, 22, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(30, 23, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(31, 24, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(32, 25, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(33, 26, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(34, 27, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(35, 28, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(36, 29, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(37, 30, 0, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023);
 
 --
 -- Δείκτες `archive_score_month`
@@ -1037,11 +1129,36 @@ CREATE TABLE `archive_score_total` (
 --
 
 INSERT INTO `archive_score_total` (`id`, `user_id`, `score`) VALUES
-(1, 1, 20000),
-(2, 2, 0),
-(3, 3, 0),
-(4, 4, 0),
-(5, 1, 25000);
+(33, 1, 2174),
+(34, 3, 55),
+(35, 2, 0),
+(36, 4, 0),
+(37, 5, 0),
+(38, 6, 0),
+(39, 7, 0),
+(40, 8, 0),
+(41, 9, 0),
+(42, 10, 0),
+(43, 11, 0),
+(44, 12, 0),
+(45, 13, 0),
+(46, 14, 0),
+(47, 15, 0),
+(48, 16, 0),
+(49, 17, 0),
+(50, 18, 0),
+(51, 19, 0),
+(52, 20, 0),
+(53, 21, 0),
+(54, 22, 0),
+(55, 23, 0),
+(56, 24, 0),
+(57, 25, 0),
+(58, 26, 0),
+(59, 27, 0),
+(60, 28, 0),
+(61, 29, 0),
+(62, 30, 0);
 
 -- --------------------------------------------------------
 
@@ -1061,6 +1178,13 @@ CREATE TABLE `archive_token_bank` (
   `month` int(11) DEFAULT NULL,
   `year` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Άδειασμα δεδομένων του πίνακα `archive_token_bank`
+--
+
+INSERT INTO `archive_token_bank` (`id`, `users_count`, `token_TOTAL`, `token_AVAILABLE`, `date_created`, `datetime_created`, `month_start`, `month_end`, `month`, `year`) VALUES
+(7, 30, 3000, 2400, '2023-09-27', '2023-09-27 13:16:04', '2023-09-01', '2023-09-30', 9, 2023);
 
 --
 -- Δείκτες `archive_token_bank`
@@ -1106,7 +1230,8 @@ CREATE TABLE `archive_token_month` (
 --
 
 INSERT INTO `archive_token_month` (`id`, `user_id`, `token`, `date_created`, `month_start`, `month_end`, `month`, `year`) VALUES
-(1, 1, 200, '2023-09-13', '2023-09-01', '2023-09-30', 9, 2023);
+(8, 1, 2341, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023),
+(9, 3, 59, '2023-09-27', '2023-09-01', '2023-09-30', 9, 2023);
 
 --
 -- Δείκτες `archive_token_month`
@@ -1169,8 +1294,8 @@ CREATE TABLE `archive_token_total` (
 --
 
 INSERT INTO `archive_token_total` (`id`, `user_id`, `tokens`) VALUES
-(1, 1, 200),
-(2, 1, 800);
+(5, 1, 2341),
+(6, 3, 59);
 
 -- --------------------------------------------------------
 
@@ -1196,7 +1321,10 @@ INSERT INTO `archive_user_actions` (`id`, `user_id`, `offer_id`, `date`, `type`)
 (14, 1, 39, '2023-09-13', 'like'),
 (17, 1, 29, '2023-09-13', 'like'),
 (18, 1, 35, '2023-09-13', 'like'),
-(19, 1, 37, '2023-09-14', 'like');
+(19, 1, 37, '2023-09-14', 'like'),
+(20, 3, 36, '2023-09-26', 'like'),
+(25, 3, 31, '2023-09-27', 'like'),
+(28, 1, 58, '2023-09-27', 'like');
 
 --
 -- Δείκτες `archive_user_actions`
@@ -1346,7 +1474,33 @@ INSERT INTO `archive_user_score_history` (`id`, `user_id`, `offer_id`, `user_lik
 (61, 1, 35, 18, '2023-09-13 21:05:35', 5),
 (62, 1, 35, NULL, '2023-09-13 21:05:35', 50),
 (63, 1, 41, NULL, '2023-09-14 21:57:31', 50),
-(64, 1, 37, 19, '2023-09-14 23:00:48', 5);
+(64, 1, 37, 19, '2023-09-14 23:00:48', 5),
+(65, 3, 42, NULL, '2023-09-26 19:48:22', 50),
+(66, 3, 36, 20, '2023-09-26 19:48:32', 5),
+(67, 1, 36, NULL, '2023-09-26 19:48:32', 50),
+(68, 1, 43, NULL, '2023-09-26 20:05:49', 50),
+(69, 1, 44, NULL, '2023-09-26 20:06:05', 50),
+(70, 1, 45, NULL, '2023-09-26 20:06:18', 50),
+(71, 1, 54, NULL, '2023-09-26 20:10:47', 50),
+(72, 1, 55, NULL, '2023-09-26 20:10:47', 50),
+(73, 1, 56, NULL, '2023-09-26 20:10:47', 50),
+(74, 1, 57, NULL, '2023-09-26 20:10:47', 50),
+(75, 1, 40, NULL, '2023-09-27 09:13:29', 50),
+(76, 3, 31, 21, '2023-09-27 13:56:19', 5),
+(77, 3, 31, 21, '2023-09-27 00:00:00', -5),
+(78, 3, 31, 22, '2023-09-27 13:57:41', -1),
+(79, 3, 31, 22, '2023-09-27 00:00:00', 1),
+(80, 3, 31, 23, '2023-09-27 13:57:43', 5),
+(81, 3, 31, 23, '2023-09-27 00:00:00', -5),
+(82, 3, 31, 24, '2023-09-27 13:57:46', -1),
+(83, 3, 31, 24, '2023-09-27 00:00:00', 1),
+(84, 3, 31, 25, '2023-09-27 13:58:17', 5),
+(85, 1, 58, 26, '2023-09-27 14:22:05', 5),
+(86, 1, 58, 26, '2023-09-27 00:00:00', -5),
+(87, 1, 58, 27, '2023-09-27 14:22:11', -1),
+(88, 1, 58, 27, '2023-09-27 00:00:00', 1),
+(89, 1, 58, 28, '2023-09-27 14:22:16', 5),
+(90, 1, 61, NULL, '2023-09-27 14:22:44', 50);
 
 -- --------------------------------------------------------
 
@@ -1425,13 +1579,13 @@ CREATE TABLE `object_offer` (
 --
 
 INSERT INTO `object_offer` (`id`, `shop_id`, `product_id`, `has_stock`, `creation_date`, `expiration_date`, `criteria_A`, `criteria_B`, `creation_user_id`, `likes`, `dislikes`, `product_price`) VALUES
-(1, 1, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
+(1, 1, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
 (2, 1, 2, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (3, 1, 3, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (4, 1, 4, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (5, 1, 5, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (6, 1, 6, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(7, 3, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
+(7, 3, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
 (8, 3, 2, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (9, 4, 11, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (10, 4, 13, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
@@ -1446,26 +1600,38 @@ INSERT INTO `object_offer` (`id`, `shop_id`, `product_id`, `has_stock`, `creatio
 (19, 5, 4, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (20, 5, 3, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
 (21, 5, 2, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(22, 8, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(23, 9, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(24, 10, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(25, 11, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(26, 12, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(27, 13, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(28, 14, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(29, 15, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 16, 3, '4.75'),
-(30, 16, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(31, 17, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(32, 18, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(33, 19, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(34, 20, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(35, 21, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 16, 3, '4.75'),
-(36, 22, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 15, 3, '4.75'),
-(37, 23, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 16, 3, '4.75'),
-(38, 24, 1, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 16, 3, '4.75'),
+(22, 8, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(23, 9, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(24, 10, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(25, 11, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(26, 12, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(27, 13, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(28, 14, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(29, 15, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 16, 3, '4.75'),
+(30, 16, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(31, 17, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 16, 3, '4.75'),
+(32, 18, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(33, 19, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(34, 20, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 15, 3, '4.75'),
+(35, 21, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 16, 3, '4.75'),
+(36, 22, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 16, 3, '4.75'),
+(37, 23, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 16, 3, '4.75'),
+(38, 24, 1, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 16, 3, '4.75'),
 (39, 369, 39, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 1, 0, '121.00'),
-(40, 25, 36, 1, '2023-09-13', '2023-09-20', 0, 0, 1, 0, 0, '123.00'),
-(41, 1274, 1123, 1, '2023-09-14', '2023-09-21', 0, 0, 1, 0, 0, '1552.00');
+(40, 25, 36, 1, '2023-09-13', '2023-10-04', 0, 0, 1, 0, 0, '123.00'),
+(41, 1274, 1123, 1, '2023-09-14', '2023-09-21', 0, 0, 1, 0, 0, '1552.00'),
+(42, 542, 36, 1, '2023-09-26', '2023-10-03', 0, 0, 3, 0, 0, '99999.99'),
+(43, 1148, 26, 1, '2023-09-26', '2023-10-03', 0, 0, 1, 0, 0, '12.00'),
+(44, 1055, 26, 1, '2023-09-26', '2023-10-03', 0, 0, 1, 0, 0, '12.00'),
+(45, 1195, 26, 1, '2023-09-26', '2023-10-03', 0, 0, 1, 0, 0, '12.00'),
+(54, 1, 30, 1, '2023-09-25', '2023-10-02', 0, 0, 1, 0, 0, '20.00'),
+(55, 2, 30, 1, '2023-09-25', '2023-10-02', 0, 0, 1, 0, 0, '25.00'),
+(56, 3, 30, 1, '2023-09-25', '2023-10-02', 0, 0, 1, 0, 0, '35.00'),
+(57, 4, 30, 1, '2023-09-25', '2023-10-02', 0, 0, 1, 0, 0, '45.00'),
+(58, 27, 30, 1, '2023-09-27', '2023-10-04', 1, 1, 1, 1, 0, '30.00'),
+(59, 47, 30, 1, '2023-09-27', '2023-10-04', 1, 1, 1, 0, 0, '29.00'),
+(60, 22, 36, 1, '2023-09-27', '2023-10-04', 1, 1, 1, 0, 0, '99999.99'),
+(61, 99, 431, 1, '2023-09-27', '2023-10-04', 1, 1, 1, 0, 0, '15.00');
 
 --
 -- Δείκτες `object_offer`
@@ -1513,46 +1679,41 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `OnAfterInsertOffer_InsertIntoUserScoreHistory` AFTER INSERT ON `object_offer` FOR EACH ROW BEGIN
 
-          SET @mesitimi_day=0;
-          SET @mesitimi_day_perc=0;
+     SET @mesitimi_day=0;
+     SET @mesitimi_day_perc=0;
 
-          SET @mesitimi_week=0;
-          SET @mesitimi_week_perc=0;
+     SET @mesitimi_week=0;
+     SET @mesitimi_week_perc=0;
 
-          SET @Compare_Day=0;
-          SET @Compare_Week=0;
+     SET @Compare_Day=0;
+     SET @Compare_Week=0;
 
-          SET @ScoreForInsert=0;
+     SET @ScoreForInsert=0;
 
-          CALL CalculateMesiTimiPreviousDay(new.product_id,@mesitimi_day);
-          CALL CalculateMesiTimiPrevious7Days(new.product_id,@mesitimi_week);
+     CALL CalculateMesiTimiPreviousDay(new.product_id,@mesitimi_day);
+     CALL CalculateMesiTimiPrevious7Days(new.product_id,@mesitimi_week);
 
 
-          SET @mesitimi_day_perc=(20/100)*@mesitimi_day;
-          SET @mesitimi_week_perc=(20/100)*@mesitimi_week;
+     SET @mesitimi_day_perc=(20/100)*@mesitimi_day;
+     SET @mesitimi_week_perc=(20/100)*@mesitimi_week;
 
-          SET @Compare_Day=@mesitimi_day-@mesitimi_day_perc;
-          SET @Compare_Week=@mesitimi_week-@mesitimi_week_perc;
+     SET @Compare_Day=@mesitimi_day-@mesitimi_day_perc;
+     SET @Compare_Week=@mesitimi_week-@mesitimi_week_perc;
 
-          
-          IF(@Compare_Day>0 OR @Compare_Week>0)THEN
-
-               IF (new.product_price<=@Compare_Day)THEN
+     IF(@Compare_Day>0 OR @Compare_Week>0)THEN
+          IF (new.product_price<=@Compare_Day)THEN
                SET @ScoreForInsert=50;
-               ELSEIF (new.product_price<=@Compare_Week>0)THEN
+          ELSEIF (new.product_price<=@Compare_Week)THEN
                SET @ScoreForInsert=20;
-               END IF;
-          
-          ELSE
-               SET @ScoreForInsert=50;
           END IF;
+     ELSE
+          SET @ScoreForInsert=50;
+     END IF;
 
-          IF (@ScoreForInsert!=0)THEN
-               INSERT INTO Archive_user_score_history (user_id,offer_id,date,score) VALUES(new.creation_user_id,new.id,CURRENT_TIMESTAMP,@ScoreForInsert);
-          END IF;
-
-        
-    END
+     IF (@ScoreForInsert!=0)THEN
+          INSERT INTO Archive_user_score_history (user_id,offer_id,date,score) VALUES(new.creation_user_id,new.id,CURRENT_TIMESTAMP,@ScoreForInsert);
+     END IF;
+END
 $$
 DELIMITER ;
 DELIMITER $$
@@ -1653,6 +1814,31 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `OnBeforeInsertOffer_ModifyExpirationDate` BEFORE INSERT ON `object_offer` FOR EACH ROW BEGIN
         SET new.expiration_date=DATE_ADD(new.creation_date,INTERVAL 7 DAY);
+
+    END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `OnBeforeInsertOffer_ModifyMesiTimiCriteria` BEFORE INSERT ON `object_offer` FOR EACH ROW BEGIN
+
+        CALL CalculateMesiTimiPreviousDay(new.product_id,@mesitimi_day);
+        CALL CalculateMesiTimiPrevious7Days(new.product_id,@mesitimi_week);
+
+        SET new.criteria_A=FALSE;
+        SET new.criteria_B=FALSE;
+
+        IF (@mesitimi_day IS NOT NULL AND new.product_price<=@mesitimi_day)THEN
+            SET new.criteria_A=TRUE;
+        ELSEIF(@mesitimi_day IS NULL)THEN
+            SET new.criteria_A=TRUE;
+        END IF;
+
+        IF (@mesitimi_week IS NOT NULL AND new.product_price<=@mesitimi_week)THEN
+            SET new.criteria_B=TRUE;
+        ELSEIF(@mesitimi_day IS NULL)THEN
+             SET new.criteria_B=TRUE;
+        END IF;
+
 
     END
 $$
@@ -2976,7 +3162,7 @@ CREATE TABLE `object_shop` (
 
 INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer`, `latitude`, `longitude`) VALUES
 (1, 'Αρισμαρί & Μέλι', '', 'supermarket', 1, '38.0240842', '23.8055564'),
-(2, 'Παλία Αγορά Τρόφιμα', '', 'convenience', 0, '38.0236250', '23.7864978'),
+(2, 'Παλία Αγορά Τρόφιμα', '', 'convenience', 1, '38.0236250', '23.7864978'),
 (3, 'Mini Market', 'Βασ. Γεωργίου Β 11', 'convenience', 1, '38.0208411', '23.7775027'),
 (4, 'Σκλαβενίτης', 'Κηφισίας 7', 'supermarket', 1, '37.9875008', '23.7620167'),
 (5, 'Ψιλικά', 'Πανόρμου 12', 'convenience', 1, '37.9883574', '23.7582721'),
@@ -3001,7 +3187,7 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (24, 'Mini Market7', 'Ψαρών', 'convenience', 1, '38.0164028', '23.7979668'),
 (25, 'Small Market', '', 'Εθνικής Αντιστάσεως', 1, '38.0157496', '23.7925468'),
 (26, 'Mini Market8', 'Μπιζανίου', 'convenience', 0, '38.0135562', '23.7950614'),
-(27, 'Mini Market9', 'Διονύσου 18', 'convenience', 0, '38.0208465', '23.8081298'),
+(27, 'Mini Market9', 'Διονύσου 18', 'convenience', 1, '38.0208465', '23.8081298'),
 (29, 'Lidl', '', 'supermarket', 0, '37.0348135', '22.1010268'),
 (31, 'ΣΟΥΠΕΡ ΜΑΡΚΕΤ ΠΑΝΑΓΑΚΟΣ', '', 'supermarket', 0, '36.7358339', '22.5642426'),
 (35, 'The Mart', '', 'supermarket', 0, '38.2893100', '21.7806567'),
@@ -3010,7 +3196,7 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (41, 'Γαλαξίας', '', 'supermarket', 0, '39.3616112', '22.9449484'),
 (42, 'Tourist Market', '', 'convenience', 0, '36.9321435', '24.7311757'),
 (43, 'Karagiannis', '', 'supermarket', 0, '36.7561554', '22.5687966'),
-(47, 'Politeia Kiosk', '', 'convenience', 0, '38.0843254', '23.8303434'),
+(47, 'Politeia Kiosk', '', 'convenience', 1, '38.0843254', '23.8303434'),
 (48, 'Spar', '', 'supermarket', 0, '37.0958566', '25.3800384'),
 (49, 'Dallas', '', 'convenience', 0, '37.1017381', '25.3763137'),
 (50, 'Papakos', '', 'convenience', 0, '38.2355300', '21.7622778'),
@@ -3032,7 +3218,7 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (91, 'ΗΠΕΙΡΩΤΙΣΑ', '', 'supermarket', 0, '37.8333895', '23.7763054'),
 (94, 'Franchise Σκαλβενίτης', '', 'supermarket', 0, '37.4998645', '23.4004616'),
 (95, '24 Shopen', '', 'supermarket', 0, '37.9977037', '23.7682233'),
-(99, 'ΓΕΡΟΥΛΗΣ ΖΑΧ', 'ΦΡΑΓΚΟΚΛΗΣΙΑΣ26', 'convenience', 0, '38.0355609', '23.8111196'),
+(99, 'ΓΕΡΟΥΛΗΣ ΖΑΧ', 'ΦΡΑΓΚΟΚΛΗΣΙΑΣ26', 'convenience', 1, '38.0355609', '23.8111196'),
 (101, 'Θεονασ', '', 'supermarket', 0, '37.0506023', '25.4972688'),
 (104, 'Δούκας', '', 'supermarket', 0, '37.9589094', '23.7432386'),
 (108, 'Maragas Super Market', '', 'supermarket', 0, '37.0609795', '25.3569608'),
@@ -3205,7 +3391,7 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (534, 'Cibo et Vino Delicatessen', '', 'convenience', 0, '37.9765559', '23.7425154'),
 (535, 'Ο δρόμος του τσαγιού', '', 'convenience', 0, '37.9767863', '23.7422177'),
 (537, 'Περίπτερο', '', 'convenience', 0, '38.0963305', '23.8285629'),
-(542, 'My world market', 'Ηρώων Πολυτεχνείου', 'convenience', 0, '38.0122304', '23.8201074'),
+(542, 'My world market', 'Ηρώων Πολυτεχνείου', 'convenience', 1, '38.0122304', '23.8201074'),
 (543, 'Τα Πάντα', '', 'convenience', 0, '37.9869721', '23.7438274'),
 (545, 'Economy', '', 'supermarket', 0, '37.9620121', '23.7040828'),
 (546, 'Anthidis', '', 'supermarket', 0, '37.8686873', '23.7579836'),
@@ -3418,7 +3604,7 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (1050, 'Kabbar', 'Τοσίτσα7', 'convenience', 0, '37.9881845', '23.7343589'),
 (1052, 'Alahar dan', '', 'convenience', 0, '38.0157855', '23.7345712'),
 (1054, 'Cretan Herbs', 'Μητροπόλεως38', 'convenience', 0, '38.0543056', '23.8096337'),
-(1055, 'Γαλακτοπωλείο Γαϊτανίδη', 'Μητροπόλεως', 'convenience', 0, '38.0546994', '23.8086478'),
+(1055, 'Γαλακτοπωλείο Γαϊτανίδη', 'Μητροπόλεως', 'convenience', 1, '38.0546994', '23.8086478'),
 (1056, 'Sharif', '', 'convenience', 0, '37.9864685', '23.7269256'),
 (1057, 'City Life', 'Ακαδημίας60', 'convenience', 0, '37.9823349', '23.7338739'),
 (1064, 'Varna', '', 'convenience', 0, '37.9889498', '23.7250762'),
@@ -3458,7 +3644,7 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (1137, 'Super Market Κρητικός', '', 'supermarket', 0, '37.9207485', '23.7373778'),
 (1139, 'Kiosky’s', '', 'convenience', 0, '37.9247482', '23.7394138'),
 (1144, 'Σουπερμάρκετ \"Express\"', 'Παράπλευρη Οδός Α.Θ.Ε.', 'supermarket', 0, '38.8829765', '22.7754711'),
-(1148, 'Fast Market', 'Αγίων Αναργύρων', 'convenience', 0, '38.0513995', '23.8005934'),
+(1148, 'Fast Market', 'Αγίων Αναργύρων', 'convenience', 1, '38.0513995', '23.8005934'),
 (1150, 'Καλημέρα', 'Δεμιρδεσίου10', 'convenience', 0, '38.0290545', '23.7526072'),
 (1151, 'Επίκεντρο', 'Καλλισθένους2', 'convenience', 0, '38.0313997', '23.7572342'),
 (1153, 'Market τροφίμων', '', 'supermarket', 0, '38.0338853', '23.7574940'),
@@ -3472,7 +3658,7 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (1182, 'Ο Γιάννης', '', 'convenience', 0, '38.0401361', '23.7587869'),
 (1187, 'Chen Xueyan', '', 'supermarket', 0, '37.9829102', '23.7217654'),
 (1193, 'ΤΑΜΠΑΚΗΣ', '', 'supermarket', 0, '38.3320361', '21.7626966'),
-(1195, 'Γευση...γώνιον', 'Αγίων Αναργύρων32Α', 'convenience', 0, '38.0517147', '23.8007668'),
+(1195, 'Γευση...γώνιον', 'Αγίων Αναργύρων32Α', 'convenience', 1, '38.0517147', '23.8007668'),
 (1198, 'Total Clean', 'Πατησίων350-352', 'convenience', 0, '38.0199381', '23.7357450'),
 (1199, 'Ελλάς', '', 'supermarket', 0, '37.4079694', '23.4160728'),
 (1206, 'Mini Market - Ο Θωμάς', '', 'convenience', 0, '37.9725627', '23.7661210'),
@@ -3691,7 +3877,11 @@ INSERT INTO `object_shop` (`id`, `name`, `address`, `description`, `active_offer
 (1597, 'Κανερη Ηλιανα', '', 'convenience', 0, '38.5269890', '25.8681604'),
 (1598, 'Gratsias Market', '', 'supermarket', 0, '36.9926511', '25.3956842'),
 (1601, 'Παντοπωλείο Κωσταρή', '', 'convenience', 0, '38.2018500', '26.0411578'),
-(1604, 'Το κυψελάκι', 'Ιωάννου Δροσοπούλου142', 'convenience', 0, '38.0076126', '23.7361131');
+(1604, 'Το κυψελάκι', 'Ιωάννου Δροσοπούλου142', 'convenience', 0, '38.0076126', '23.7361131'),
+(4240, 'Ο Βασίλης', 'Λευκωσίας22', 'convenience', 0, '38.0043514', '23.7324888'),
+(4270, 'Anabia Mini Market', '', 'convenience', 0, '37.4983867', '23.4529454'),
+(4273, 'Coffe & Shop Καλέμης', 'Λεωφόρος Κάτω Σουλίου2', 'convenience', 0, '38.1442588', '23.9675272'),
+(4274, 'Mini Market Τσεσμετζής', 'Λευκωσίας27', 'convenience', 0, '37.9000458', '23.7722005');
 
 -- --------------------------------------------------------
 
@@ -3845,10 +4035,36 @@ CREATE TABLE `object_user` (
 --
 
 INSERT INTO `object_user` (`id`, `username`, `password`, `email`, `last_session_id`, `name`, `first_name`, `last_name`, `date_creation`, `address`, `latitude`, `longitude`) VALUES
-(1, 'ilias2', '1234', 'elangelis2@yahoo.gr', '', '', '', '', '2023-09-13 02:18:25', '', '38.0184475', '23.8003411'),
+(1, 'ilias2', '1234', 'elangelis2@yahoo.gr', '', '', '', '', '2023-09-13 02:18:25', '', '38.0184554', '23.8000726'),
 (2, 'mpou', '1234!', 'kouper2@yahoo.gr', '', '', '', '', '2023-09-13 02:18:25', '', '0.0000000', '0.0000000'),
-(3, 'test', '12344', 'testmails2@yahoo.gr', '', '', '', '', '2023-09-13 02:18:25', '', '0.0000000', '0.0000000'),
-(4, 'ilias2', '12345', 'kati2@yahoo.gr', '', '', '', '', '2023-09-13 02:18:25', '', '38.0184475', '23.8003411');
+(3, 'test', '12344', 'testmails2@yahoo.gr', '', '', '', '', '2023-09-13 02:18:25', '', '38.0184794', '23.8000795'),
+(4, 'ilias2', '12345', 'kati2@yahoo.gr', '', '', '', '', '2023-09-13 02:18:25', '', '38.0184554', '23.8000726'),
+(5, 'test1', '1', '1', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(6, 'test2', '2	', '2', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(7, 'test3', '3	', '3', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(8, 'test4', '4	', '4', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(9, 'test5', '5	', '5', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(10, 'test6', '6	', '6', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(11, 'test7', '7	', '7', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(12, 'test8', '8	', '8', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(13, 'test9', '9	', '9', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(14, 'test10', '10	', '10', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(15, 'test11', '11	', '11', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(16, 'test12', '12	', '12', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(17, 'test13', '13	', '13', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(18, 'test14', '14	', '14', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(19, 'test15', '15	', '15', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(20, 'test16', '16	', '16', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(21, 'test17', '17	', '17', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(22, 'test18', '18	', '18', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(23, 'test19', '19	', '19', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(24, 'test20', '20	', '20', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(25, 'test21', '21	', '21', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(26, 'test22', '22	', '22', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(27, 'test23', '23', '	23', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(28, 'test24', '24	', '24', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(29, 'test25', '25', '	25', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000'),
+(30, 'test26', '26	', '26', '', '', '', '', '2023-09-24 22:04:04', '', '0.0000000', '0.0000000');
 
 --
 -- Δείκτες `object_user`
@@ -3986,55 +4202,55 @@ ALTER TABLE `object_user`
 -- AUTO_INCREMENT για πίνακα `archive_product_history`
 --
 ALTER TABLE `archive_product_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_product_mesitimi`
 --
 ALTER TABLE `archive_product_mesitimi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_score_month`
 --
 ALTER TABLE `archive_score_month`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_score_total`
 --
 ALTER TABLE `archive_score_total`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_token_bank`
 --
 ALTER TABLE `archive_token_bank`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_token_month`
 --
 ALTER TABLE `archive_token_month`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_token_total`
 --
 ALTER TABLE `archive_token_total`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_user_actions`
 --
 ALTER TABLE `archive_user_actions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT για πίνακα `archive_user_score_history`
 --
 ALTER TABLE `archive_user_score_history`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 
 --
 -- AUTO_INCREMENT για πίνακα `object_category`
@@ -4046,7 +4262,7 @@ ALTER TABLE `object_category`
 -- AUTO_INCREMENT για πίνακα `object_offer`
 --
 ALTER TABLE `object_offer`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=62;
 
 --
 -- AUTO_INCREMENT για πίνακα `object_product`
@@ -4058,7 +4274,7 @@ ALTER TABLE `object_product`
 -- AUTO_INCREMENT για πίνακα `object_shop`
 --
 ALTER TABLE `object_shop`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3381;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4275;
 
 --
 -- AUTO_INCREMENT για πίνακα `object_subcategory`
@@ -4070,7 +4286,7 @@ ALTER TABLE `object_subcategory`
 -- AUTO_INCREMENT για πίνακα `object_user`
 --
 ALTER TABLE `object_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- Περιορισμοί για άχρηστους πίνακες
@@ -4156,6 +4372,8 @@ CREATE DEFINER=`root`@`localhost` EVENT `EndMonth_TokenBank` ON SCHEDULE EVERY 1
 CREATE DEFINER=`root`@`localhost` EVENT `StartMonth_TokenBank` ON SCHEDULE EVERY 1 MONTH STARTS '2023-08-01 00:00:01' ON COMPLETION NOT PRESERVE ENABLE DO CALL StartMonth_UpdateTokenBankAvailableTokens()$$
 
 CREATE DEFINER=`root`@`localhost` EVENT `Update_and_DeleteOffers` ON SCHEDULE EVERY 1 DAY STARTS '2023-07-29 00:00:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL Update_DeleteExistingOffers()$$
+
+CREATE DEFINER=`root`@`localhost` EVENT `Update_MesiTimi_AllProducts` ON SCHEDULE EVERY 1 DAY STARTS '2023-08-31 20:00:00' ON COMPLETION NOT PRESERVE ENABLE DO CALL Update_MesiTimi_AllProducts_PreviousDay()$$
 
 DELIMITER ;
 COMMIT;
