@@ -30,44 +30,53 @@ const settings = document.getElementById("settings"),
 //TABLES
   const OffersTableBody=document.getElementById('Offers_Table_body');
 
-//SEARCH NAME SHOP AND MARKERS SHOW
-searchBtn_name.addEventListener("keydown", (e) => {
+  searchBtn_name.addEventListener("keydown", (e) => {
   
-  let textinput=document.getElementById("search_result").value;
-
-  if (e.key == "Enter" && textinput != "") {
-    map.eachLayer((layer) => {
-      if(layer!=osm && layer!=LayerUser){
-        layer.remove();
-      }
-    });
-    osm.addTo(map);
-    map.addLayer(Usermarker);
-    map.addLayer(Usercircle);
-    searchQuery = textinput;
-    CreateMarkersForShopName(searchQuery);
-  }
-});
-
-
-//SEARTH ITEM CATEGORY BUTTON AND MARKERS SHOW
-searchBtn_item.addEventListener("keydown", (e) => {
+    let textinput=document.getElementById("search_result").value;
   
-  let textinput=document.getElementById("search_result_category").value;
-
-  if (e.key == "Enter" && textinput != "") {
-    map.eachLayer((layer) => {
-      if(layer!=osm && layer!=LayerUser){
-        layer.remove();
-      }
-    });
-    osm.addTo(map);
-    map.addLayer(Usermarker);
-    map.addLayer(Usercircle);
-    searchQuery = textinput;
-    CreateMarkersForItemCategory(searchQuery);
-  }
-});
+    if (e.key == "Enter" && textinput != "") {
+      map.eachLayer((layer) => {
+        if(layer!=osm && layer!=LayerUser){
+          layer.remove();
+        }
+      });
+      osm.addTo(map);
+      map.addLayer(Usermarker);
+      map.addLayer(Usercircle);
+      searchQuery = textinput;
+      CreateMarkersForShopName(searchQuery);
+    }else if(e.key == "Enter" && textinput == ""){
+      Create_MarkersForAllShopsWithOffers();
+      Create_PopUpbodyForMarkers();
+      Create_LayerGroupsForMarkers();
+      Create_EventListenersForMarkers();
+    }
+  });
+  
+  
+  //SEARTH ITEM CATEGORY BUTTON AND MARKERS SHOW
+  searchBtn_item.addEventListener("keydown", (e) => {
+    
+    let textinput=document.getElementById("search_result_category").value;
+  
+    if (e.key == "Enter" && textinput != "") {
+      map.eachLayer((layer) => {
+        if(layer!=osm && layer!=LayerUser){
+          layer.remove();
+        }
+      });
+      osm.addTo(map);
+      map.addLayer(Usermarker);
+      map.addLayer(Usercircle);
+      searchQuery = textinput;
+      CreateMarkersForItemCategory(searchQuery);
+    }else if(e.key == "Enter" && textinput == ""){
+      Create_MarkersForAllShopsWithOffers();
+      Create_PopUpbodyForMarkers();
+      Create_LayerGroupsForMarkers();
+      Create_EventListenersForMarkers();
+    }
+  });
 
 
 user_profile.addEventListener("click", () => {
